@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Price History</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            width: 320px;
+            height: 500px;
+        }
+
+        /* Fixed size for iOS popup context */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- View 1: Main List -->
+        <div id="listView" class="tab-content active">
+            <header>
+                <h1>Price Dashboard</h1>
+                <div class="actions">
+                    <button id="checkNowBtn" class="secondary-btn">↻ Check</button>
+                </div>
+            </header>
+
+            <div id="itemList" class="item-list-container">
+                <p class="loading">Loading items...</p>
+            </div>
+            <p id="status" class="status-msg"></p>
+        </div>
+
+        <!-- View 2: Details & Graph -->
+        <div id="detailView" class="hidden">
+            <header>
+                <button id="backBtn" class="back-btn">← Back</button>
+                <h1 id="detailTitle">Product Name</h1>
+            </header>
+
+            <div class="chart-container">
+                <canvas id="priceChart" width="300" height="200"></canvas>
+            </div>
+
+            <div class="detail-stats">
+                <p>Current: <strong id="detailCurrent">R$ -</strong></p>
+                <p>Lowest: <strong id="detailLowest">R$ -</strong></p>
+                <p>Highest: <strong id="detailHighest">R$ -</strong></p>
+            </div>
+        </div>
+    </div>
+    <script src="js/popup.js"></script>
+</body>
+
+</html>

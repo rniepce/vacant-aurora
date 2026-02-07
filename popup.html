@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Price History</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- View 1: Main List -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="listView">Monitor</button>
+            <button class="tab-btn" data-tab="librarianView">Bibliotecário 🤖</button>
+        </div>
+
+        <!-- View 1: Main List -->
+        <div id="listView" class="tab-content active">
+            <header>
+                <h1>Price Dashboard</h1>
+                <div class="actions">
+                    <button id="settingsBtn" class="icon-btn" title="Settings">⚙️</button>
+                    <button id="checkNowBtn" class="secondary-btn">↻ Check</button>
+                </div>
+            </header>
+
+            <!-- View 4: Settings -->
+            <div id="settingsView" class="settings-modal hidden">
+                <div class="settings-content">
+                    <h3>Configurações</h3>
+                    <label>Google Gemini API Key:</label>
+                    <input type="password" id="apiKeyInput" placeholder="sk-..." />
+                    <button id="saveSettingsBtn" class="action-btn">Salvar</button>
+                    <button id="closeSettingsBtn" class="secondary-btn">Cancelar</button>
+                </div>
+            </div>
+
+            <div id="itemList" class="item-list-container">
+                <p class="loading">Loading items...</p>
+            </div>
+            <p id="status" class="status-msg"></p>
+        </div>
+
+        <!-- View 3: Librarian (New) -->
+        <div id="librarianView" class="tab-content hidden">
+            <div class="lib-header">
+                <h2>Análise Literária</h2>
+                <div class="lib-actions">
+                    <button id="copyPromptBtn" class="action-btn" title="Copiar Prompt">📋 Prompt</button>
+                    <button id="analyzeBtn" class="action-btn">Gerar Relatório</button>
+                </div>
+            </div>
+
+            <div id="libContent" class="lib-content-wrapper hidden">
+                <div class="report-card">
+                    <h3>🔍 Seu Perfil de Leitor</h3>
+                    <p id="genreText">...</p>
+                    <div id="genreTags" class="analysis-tags"></div>
+                </div>
+
+                <div class="report-card">
+                    <h3>📚 Ordem de Leitura Sugerida</h3>
+                    <ul id="readingList" class="book-list"></ul>
+                </div>
+
+                <div class="report-card">
+                    <h3>✨ Recomendações para Você</h3>
+                    <ul id="recList" class="book-list rec-list"></ul>
+                </div>
+            </div>
+            <div id="libLoading" class="hidden loading-box">
+                <div class="spinner"></div> Analyze books...
+            </div>
+            <div id="libError" class="hidden error-msg"></div>
+        </div>
+
+        <!-- View 2: Details & Graph -->
+        <div id="detailView" class="hidden">
+            <header>
+                <button id="backBtn" class="back-btn">← Back</button>
+                <h1 id="detailTitle">Product Name</h1>
+            </header>
+
+            <div class="chart-container">
+                <canvas id="priceChart" width="300" height="200"></canvas>
+            </div>
+
+            <div class="detail-stats">
+                <p>Current: <strong id="detailCurrent">R$ -</strong></p>
+                <p>Lowest: <strong id="detailLowest">R$ -</strong></p>
+                <p>Highest: <strong id="detailHighest">R$ -</strong></p>
+            </div>
+        </div>
+    </div>
+    <script src="js/popup.js"></script>
+</body>
+
+</html>
