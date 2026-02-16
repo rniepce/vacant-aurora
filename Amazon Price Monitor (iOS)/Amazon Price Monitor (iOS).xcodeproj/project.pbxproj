@@ -1,0 +1,1003 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CA86A4172F37F4B5003155D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86A4162F37F4B5003155D9 /* AppDelegate.swift */; };
+		CA86A4192F37F4B5003155D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86A4182F37F4B5003155D9 /* SceneDelegate.swift */; };
+		CA86A41C2F37F4B5003155D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA86A41A2F37F4B5003155D9 /* LaunchScreen.storyboard */; };
+		CA86A41F2F37F4B5003155D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA86A41D2F37F4B5003155D9 /* Main.storyboard */; };
+		CA86A4282F37F4B5003155D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86A4272F37F4B5003155D9 /* AppDelegate.swift */; };
+		CA86A42B2F37F4B5003155D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4292F37F4B5003155D9 /* Main.storyboard */; };
+		CA86A4322F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CA86A4312F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CA86A43C2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CA86A43B2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CA86A4412F37F4B5003155D9 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4062F37F4B4003155D9 /* Main.html */; };
+		CA86A4422F37F4B5003155D9 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4062F37F4B4003155D9 /* Main.html */; };
+		CA86A4432F37F4B5003155D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4082F37F4B4003155D9 /* Icon.png */; };
+		CA86A4442F37F4B5003155D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4082F37F4B4003155D9 /* Icon.png */; };
+		CA86A4452F37F4B5003155D9 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4092F37F4B4003155D9 /* Style.css */; };
+		CA86A4462F37F4B5003155D9 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4092F37F4B4003155D9 /* Style.css */; };
+		CA86A4472F37F4B5003155D9 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A40A2F37F4B4003155D9 /* Script.js */; };
+		CA86A4482F37F4B5003155D9 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A40A2F37F4B4003155D9 /* Script.js */; };
+		CA86A4492F37F4B5003155D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86A40B2F37F4B4003155D9 /* ViewController.swift */; };
+		CA86A44A2F37F4B5003155D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86A40B2F37F4B4003155D9 /* ViewController.swift */; };
+		CA86A44B2F37F4B5003155D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA86A40C2F37F4B5003155D9 /* Assets.xcassets */; };
+		CA86A44C2F37F4B5003155D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA86A40C2F37F4B5003155D9 /* Assets.xcassets */; };
+		CA86A44D2F37F4B5003155D9 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86A40E2F37F4B5003155D9 /* SafariWebExtensionHandler.swift */; };
+		CA86A44E2F37F4B5003155D9 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86A40E2F37F4B5003155D9 /* SafariWebExtensionHandler.swift */; };
+		CA86A4672F37F4B5003155D9 /* offscreen.html in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4602F37F4B5003155D9 /* offscreen.html */; };
+		CA86A4682F37F4B5003155D9 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4612F37F4B5003155D9 /* styles.css */; };
+		CA86A4692F37F4B5003155D9 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4622F37F4B5003155D9 /* background.js */; };
+		CA86A46A2F37F4B5003155D9 /* js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4632F37F4B5003155D9 /* js */; };
+		CA86A46B2F37F4B5003155D9 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4642F37F4B5003155D9 /* popup.html */; };
+		CA86A46C2F37F4B5003155D9 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4652F37F4B5003155D9 /* manifest.json */; };
+		CA86A46D2F37F4B5003155D9 /* offscreen.js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4662F37F4B5003155D9 /* offscreen.js */; };
+		CA86A46E2F37F4B5003155D9 /* offscreen.html in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4602F37F4B5003155D9 /* offscreen.html */; };
+		CA86A46F2F37F4B5003155D9 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4612F37F4B5003155D9 /* styles.css */; };
+		CA86A4702F37F4B5003155D9 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4622F37F4B5003155D9 /* background.js */; };
+		CA86A4712F37F4B5003155D9 /* js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4632F37F4B5003155D9 /* js */; };
+		CA86A4722F37F4B5003155D9 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4642F37F4B5003155D9 /* popup.html */; };
+		CA86A4732F37F4B5003155D9 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4652F37F4B5003155D9 /* manifest.json */; };
+		CA86A4742F37F4B5003155D9 /* offscreen.js in Resources */ = {isa = PBXBuildFile; fileRef = CA86A4662F37F4B5003155D9 /* offscreen.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CA86A4332F37F4B5003155D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CA86A4002F37F4B4003155D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CA86A4302F37F4B5003155D9;
+			remoteInfo = "Amazon Price Monitor (iOS) Extension (iOS)";
+		};
+		CA86A43D2F37F4B5003155D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CA86A4002F37F4B4003155D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CA86A43A2F37F4B5003155D9;
+			remoteInfo = "Amazon Price Monitor (iOS) Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CA86A4542F37F4B5003155D9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CA86A4322F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A45B2F37F4B5003155D9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CA86A43C2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CA86A4072F37F4B4003155D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		CA86A4082F37F4B4003155D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		CA86A4092F37F4B4003155D9 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		CA86A40A2F37F4B4003155D9 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		CA86A40B2F37F4B4003155D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CA86A40C2F37F4B5003155D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CA86A40E2F37F4B5003155D9 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		CA86A4132F37F4B5003155D9 /* Amazon Price Monitor (iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Amazon Price Monitor (iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA86A4162F37F4B5003155D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CA86A4182F37F4B5003155D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CA86A41B2F37F4B5003155D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CA86A41E2F37F4B5003155D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CA86A4202F37F4B5003155D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA86A4252F37F4B5003155D9 /* Amazon Price Monitor (iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Amazon Price Monitor (iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA86A4272F37F4B5003155D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CA86A42A2F37F4B5003155D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CA86A42C2F37F4B5003155D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA86A4312F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Amazon Price Monitor (iOS) Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA86A4362F37F4B5003155D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA86A43B2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Amazon Price Monitor (iOS) Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA86A4402F37F4B5003155D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA86A4602F37F4B5003155D9 /* offscreen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = offscreen.html; path = ../../vacant_aurora_ios/offscreen.html; sourceTree = "<group>"; };
+		CA86A4612F37F4B5003155D9 /* styles.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = styles.css; path = ../../vacant_aurora_ios/styles.css; sourceTree = "<group>"; };
+		CA86A4622F37F4B5003155D9 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../vacant_aurora_ios/background.js; sourceTree = "<group>"; };
+		CA86A4632F37F4B5003155D9 /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; name = js; path = ../../vacant_aurora_ios/js; sourceTree = "<group>"; };
+		CA86A4642F37F4B5003155D9 /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../vacant_aurora_ios/popup.html; sourceTree = "<group>"; };
+		CA86A4652F37F4B5003155D9 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../vacant_aurora_ios/manifest.json; sourceTree = "<group>"; };
+		CA86A4662F37F4B5003155D9 /* offscreen.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = offscreen.js; path = ../../vacant_aurora_ios/offscreen.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CA86A4102F37F4B5003155D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A4222F37F4B5003155D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A42E2F37F4B5003155D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A4382F37F4B5003155D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CA86A3FF2F37F4B4003155D9 = {
+			isa = PBXGroup;
+			children = (
+				CA86A4042F37F4B4003155D9 /* Shared (App) */,
+				CA86A40D2F37F4B5003155D9 /* Shared (Extension) */,
+				CA86A4152F37F4B5003155D9 /* iOS (App) */,
+				CA86A4262F37F4B5003155D9 /* macOS (App) */,
+				CA86A4352F37F4B5003155D9 /* iOS (Extension) */,
+				CA86A43F2F37F4B5003155D9 /* macOS (Extension) */,
+				CA86A4142F37F4B5003155D9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CA86A4042F37F4B4003155D9 /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A40B2F37F4B4003155D9 /* ViewController.swift */,
+				CA86A40C2F37F4B5003155D9 /* Assets.xcassets */,
+				CA86A4052F37F4B4003155D9 /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		CA86A4052F37F4B4003155D9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A4062F37F4B4003155D9 /* Main.html */,
+				CA86A4082F37F4B4003155D9 /* Icon.png */,
+				CA86A4092F37F4B4003155D9 /* Style.css */,
+				CA86A40A2F37F4B4003155D9 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CA86A40D2F37F4B5003155D9 /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A45F2F37F4B5003155D9 /* Resources */,
+				CA86A40E2F37F4B5003155D9 /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		CA86A4142F37F4B5003155D9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A4132F37F4B5003155D9 /* Amazon Price Monitor (iOS).app */,
+				CA86A4252F37F4B5003155D9 /* Amazon Price Monitor (iOS).app */,
+				CA86A4312F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */,
+				CA86A43B2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CA86A4152F37F4B5003155D9 /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A4162F37F4B5003155D9 /* AppDelegate.swift */,
+				CA86A4182F37F4B5003155D9 /* SceneDelegate.swift */,
+				CA86A41A2F37F4B5003155D9 /* LaunchScreen.storyboard */,
+				CA86A41D2F37F4B5003155D9 /* Main.storyboard */,
+				CA86A4202F37F4B5003155D9 /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		CA86A4262F37F4B5003155D9 /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A4272F37F4B5003155D9 /* AppDelegate.swift */,
+				CA86A4292F37F4B5003155D9 /* Main.storyboard */,
+				CA86A42C2F37F4B5003155D9 /* Info.plist */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		CA86A4352F37F4B5003155D9 /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A4362F37F4B5003155D9 /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		CA86A43F2F37F4B5003155D9 /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A4402F37F4B5003155D9 /* Info.plist */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		CA86A45F2F37F4B5003155D9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CA86A4602F37F4B5003155D9 /* offscreen.html */,
+				CA86A4612F37F4B5003155D9 /* styles.css */,
+				CA86A4622F37F4B5003155D9 /* background.js */,
+				CA86A4632F37F4B5003155D9 /* js */,
+				CA86A4642F37F4B5003155D9 /* popup.html */,
+				CA86A4652F37F4B5003155D9 /* manifest.json */,
+				CA86A4662F37F4B5003155D9 /* offscreen.js */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CA86A4122F37F4B5003155D9 /* Amazon Price Monitor (iOS) (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA86A4552F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) (iOS)" */;
+			buildPhases = (
+				CA86A40F2F37F4B5003155D9 /* Sources */,
+				CA86A4102F37F4B5003155D9 /* Frameworks */,
+				CA86A4112F37F4B5003155D9 /* Resources */,
+				CA86A4542F37F4B5003155D9 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA86A4342F37F4B5003155D9 /* PBXTargetDependency */,
+			);
+			name = "Amazon Price Monitor (iOS) (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Price Monitor (iOS) (iOS)";
+			productReference = CA86A4132F37F4B5003155D9 /* Amazon Price Monitor (iOS).app */;
+			productType = "com.apple.product-type.application";
+		};
+		CA86A4242F37F4B5003155D9 /* Amazon Price Monitor (iOS) (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA86A45C2F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) (macOS)" */;
+			buildPhases = (
+				CA86A4212F37F4B5003155D9 /* Sources */,
+				CA86A4222F37F4B5003155D9 /* Frameworks */,
+				CA86A4232F37F4B5003155D9 /* Resources */,
+				CA86A45B2F37F4B5003155D9 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA86A43E2F37F4B5003155D9 /* PBXTargetDependency */,
+			);
+			name = "Amazon Price Monitor (iOS) (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Price Monitor (iOS) (macOS)";
+			productReference = CA86A4252F37F4B5003155D9 /* Amazon Price Monitor (iOS).app */;
+			productType = "com.apple.product-type.application";
+		};
+		CA86A4302F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA86A4512F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) Extension (iOS)" */;
+			buildPhases = (
+				CA86A42D2F37F4B5003155D9 /* Sources */,
+				CA86A42E2F37F4B5003155D9 /* Frameworks */,
+				CA86A42F2F37F4B5003155D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Amazon Price Monitor (iOS) Extension (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Price Monitor (iOS) Extension (iOS)";
+			productReference = CA86A4312F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		CA86A43A2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA86A4582F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) Extension (macOS)" */;
+			buildPhases = (
+				CA86A4372F37F4B5003155D9 /* Sources */,
+				CA86A4382F37F4B5003155D9 /* Frameworks */,
+				CA86A4392F37F4B5003155D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Amazon Price Monitor (iOS) Extension (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Price Monitor (iOS) Extension (macOS)";
+			productReference = CA86A43B2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CA86A4002F37F4B4003155D9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					CA86A4122F37F4B5003155D9 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					CA86A4242F37F4B5003155D9 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					CA86A4302F37F4B5003155D9 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					CA86A43A2F37F4B5003155D9 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+				};
+			};
+			buildConfigurationList = CA86A4032F37F4B4003155D9 /* Build configuration list for PBXProject "Amazon Price Monitor (iOS)" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CA86A3FF2F37F4B4003155D9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = CA86A4142F37F4B5003155D9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CA86A4122F37F4B5003155D9 /* Amazon Price Monitor (iOS) (iOS) */,
+				CA86A4242F37F4B5003155D9 /* Amazon Price Monitor (iOS) (macOS) */,
+				CA86A4302F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension (iOS) */,
+				CA86A43A2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CA86A4112F37F4B5003155D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A4432F37F4B5003155D9 /* Icon.png in Resources */,
+				CA86A41C2F37F4B5003155D9 /* LaunchScreen.storyboard in Resources */,
+				CA86A4412F37F4B5003155D9 /* Main.html in Resources */,
+				CA86A4472F37F4B5003155D9 /* Script.js in Resources */,
+				CA86A44B2F37F4B5003155D9 /* Assets.xcassets in Resources */,
+				CA86A41F2F37F4B5003155D9 /* Main.storyboard in Resources */,
+				CA86A4452F37F4B5003155D9 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A4232F37F4B5003155D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A4442F37F4B5003155D9 /* Icon.png in Resources */,
+				CA86A4462F37F4B5003155D9 /* Style.css in Resources */,
+				CA86A42B2F37F4B5003155D9 /* Main.storyboard in Resources */,
+				CA86A4482F37F4B5003155D9 /* Script.js in Resources */,
+				CA86A44C2F37F4B5003155D9 /* Assets.xcassets in Resources */,
+				CA86A4422F37F4B5003155D9 /* Main.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A42F2F37F4B5003155D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A46E2F37F4B5003155D9 /* offscreen.html in Resources */,
+				CA86A4722F37F4B5003155D9 /* popup.html in Resources */,
+				CA86A4702F37F4B5003155D9 /* background.js in Resources */,
+				CA86A46F2F37F4B5003155D9 /* styles.css in Resources */,
+				CA86A4742F37F4B5003155D9 /* offscreen.js in Resources */,
+				CA86A4732F37F4B5003155D9 /* manifest.json in Resources */,
+				CA86A4712F37F4B5003155D9 /* js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A4392F37F4B5003155D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A4672F37F4B5003155D9 /* offscreen.html in Resources */,
+				CA86A46B2F37F4B5003155D9 /* popup.html in Resources */,
+				CA86A4692F37F4B5003155D9 /* background.js in Resources */,
+				CA86A4682F37F4B5003155D9 /* styles.css in Resources */,
+				CA86A46D2F37F4B5003155D9 /* offscreen.js in Resources */,
+				CA86A46C2F37F4B5003155D9 /* manifest.json in Resources */,
+				CA86A46A2F37F4B5003155D9 /* js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CA86A40F2F37F4B5003155D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A4492F37F4B5003155D9 /* ViewController.swift in Sources */,
+				CA86A4172F37F4B5003155D9 /* AppDelegate.swift in Sources */,
+				CA86A4192F37F4B5003155D9 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A4212F37F4B5003155D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A44A2F37F4B5003155D9 /* ViewController.swift in Sources */,
+				CA86A4282F37F4B5003155D9 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A42D2F37F4B5003155D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A44D2F37F4B5003155D9 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA86A4372F37F4B5003155D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA86A44E2F37F4B5003155D9 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CA86A4342F37F4B5003155D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CA86A4302F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension (iOS) */;
+			targetProxy = CA86A4332F37F4B5003155D9 /* PBXContainerItemProxy */;
+		};
+		CA86A43E2F37F4B5003155D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CA86A43A2F37F4B5003155D9 /* Amazon Price Monitor (iOS) Extension (macOS) */;
+			targetProxy = CA86A43D2F37F4B5003155D9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CA86A4062F37F4B4003155D9 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CA86A4072F37F4B4003155D9 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		CA86A41A2F37F4B5003155D9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CA86A41B2F37F4B5003155D9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		CA86A41D2F37F4B5003155D9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CA86A41E2F37F4B5003155D9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CA86A4292F37F4B5003155D9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CA86A42A2F37F4B5003155D9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CA86A44F2F37F4B5003155D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CA86A4502F37F4B5003155D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		CA86A4522F37F4B5003155D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8XBR58473;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS) Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-.Extension";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS) Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CA86A4532F37F4B5003155D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8XBR58473;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS) Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-.Extension";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS) Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CA86A4562F37F4B5003155D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8XBR58473;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS)";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CA86A4572F37F4B5003155D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8XBR58473;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS)";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CA86A4592F37F4B5003155D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS) Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-.Extension";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS) Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CA86A45A2F37F4B5003155D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS) Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-.Extension";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS) Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CA86A45D2F37F4B5003155D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS)";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CA86A45E2F37F4B5003155D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Price Monitor (iOS)";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.Amazon-Price-Monitor--iOS-";
+				PRODUCT_NAME = "Amazon Price Monitor (iOS)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CA86A4032F37F4B4003155D9 /* Build configuration list for PBXProject "Amazon Price Monitor (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA86A44F2F37F4B5003155D9 /* Debug */,
+				CA86A4502F37F4B5003155D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA86A4512F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA86A4522F37F4B5003155D9 /* Debug */,
+				CA86A4532F37F4B5003155D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA86A4552F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA86A4562F37F4B5003155D9 /* Debug */,
+				CA86A4572F37F4B5003155D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA86A4582F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA86A4592F37F4B5003155D9 /* Debug */,
+				CA86A45A2F37F4B5003155D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CA86A45C2F37F4B5003155D9 /* Build configuration list for PBXNativeTarget "Amazon Price Monitor (iOS) (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA86A45D2F37F4B5003155D9 /* Debug */,
+				CA86A45E2F37F4B5003155D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CA86A4002F37F4B4003155D9 /* Project object */;
+}

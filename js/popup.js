@@ -75,6 +75,26 @@ function init() {
                 // Optional: alert('API Key Saved');
             });
         });
+
+        // Export for iOS
+        const exportBtn = document.getElementById('exportBtn');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => {
+                chrome.storage.local.get(['prices'], (result) => {
+                    const data = result.prices || {};
+                    const json = JSON.stringify(data, null, 2);
+                    const blob = new Blob([json], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'amazon-price-history.json';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    exportBtn.textContent = '✅ Exportado!';
+                    setTimeout(() => exportBtn.textContent = '📤 Exportar para iOS', 2000);
+                });
+            });
+        }
     }
 
     // Tab Logic
