@@ -61,20 +61,16 @@ struct DashboardView: View {
 
                 Spacer()
 
-                Picker("Ordenar por", selection: $sortOption) {
+                Menu {
                     ForEach(SortOption.allCases, id: \.self) { option in
-                        Text(option.rawValue).tag(option)
+                        Button {
+                            sortOption = option
+                        } label: {
+                            Label(option.rawValue, systemImage: sortOption == option ? "checkmark" : "")
+                        }
                     }
-                }
-                .pickerStyle(.segmented)
-                .frame(maxWidth: 200)
-
-                Spacer()
-
-                Button {
-                    showImporter = true
                 } label: {
-                    Label("Importar", systemImage: "square.and.arrow.down")
+                    Label(sortOption.rawValue, systemImage: "arrow.up.arrow.down")
                 }
                 .modifier(GlassStyle())
             }
