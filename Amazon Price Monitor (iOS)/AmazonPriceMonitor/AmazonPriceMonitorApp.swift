@@ -4,7 +4,6 @@
 //
 
 import SwiftUI
-import UserNotifications
 
 @main
 struct AmazonPriceMonitorApp: App {
@@ -15,17 +14,14 @@ struct AmazonPriceMonitorApp: App {
             ContentView()
                 .environment(priceStore)
                 .onAppear {
-                    requestNotificationPermission()
+                    #if DEBUG
                     if CommandLine.arguments.contains("-demoMode") {
                         MainActor.assumeIsolated {
                             priceStore.populateWithDemoData()
                         }
                     }
+                    #endif
                 }
         }
-    }
-
-    private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
 }
