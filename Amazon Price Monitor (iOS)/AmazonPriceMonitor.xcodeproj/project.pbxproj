@@ -18,6 +18,7 @@
 		AA000009 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000009 /* LoginView.swift */; };
 		DA000002 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA000001 /* Assets.xcassets */; };
 		DA000004 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DA000003 /* Localizable.xcstrings */; };
+		DA000006 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DA000005 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		DA000003 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		AC000001 /* AmazonPriceMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonPriceMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DA000005 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				AE000005 /* Services */,
 				DA000001 /* Assets.xcassets */,
 				DA000003 /* Localizable.xcstrings */,
+				DA000005 /* PrivacyInfo.xcprivacy */,
 			);
 			path = AmazonPriceMonitor;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			files = (
 				DA000002 /* Assets.xcassets in Resources */,
 				DA000004 /* Localizable.xcstrings in Resources */,
+				DA000006 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

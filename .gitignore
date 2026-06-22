@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Xcode — user-specific & build artifacts
+xcuserdata/
+*.xcuserstate
+build/
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Untracked side projects kept locally (not part of the App Store app)
+/zara-ios-monitor/
