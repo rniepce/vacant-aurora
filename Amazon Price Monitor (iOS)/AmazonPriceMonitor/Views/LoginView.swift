@@ -26,15 +26,10 @@ struct LoginView: View {
                                 .replacingOccurrences(of: "https://www.", with: "")
                                 .replacingOccurrences(of: "https://", with: "")
 
-                            // Detect successful login
+                            // Detect a successful login once we've left the sign-in flow.
                             if !urlString.contains("signin") && !urlString.contains("ap/signin") {
-                                WKWebsiteDataStore.default().httpCookieStore.getAllCookies { cookies in
-                                    let hasAuth = cookies.contains { $0.domain.contains("amazon.com.br") && ($0.name == "at-main" || $0.name == "session-id") }
-                                    DispatchQueue.main.async {
-                                        if hasAuth {
-                                            isLoggedIn = true
-                                        }
-                                    }
+                                AmazonAuth.isLoggedIn { loggedIn in
+                                    if loggedIn { isLoggedIn = true }
                                 }
                             }
                         }
@@ -47,12 +42,12 @@ struct LoginView: View {
                     ZStack {
                         Color(.systemBackground).opacity(0.6)
                             .ignoresSafeArea()
-                        ProgressView("Carregando...")
+                        ProgressView("Loading...")
                             .tint(Color(hex: "FF9900"))
                     }
                 }
             }
-            .navigationTitle("Login Amazon")
+            .navigationTitle("Amazon Login")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -62,7 +57,7 @@ struct LoginView: View {
                         .lineLimit(1)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Pronto") {
+                    Button("Done") {
                         showLogin = false
                     }
                     .modifier(GlassProminentStyle())

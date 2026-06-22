@@ -16,16 +16,16 @@ struct AmazonPriceMonitorApp: App {
                 .environment(priceStore)
                 .onAppear {
                     requestNotificationPermission()
+                    if CommandLine.arguments.contains("-demoMode") {
+                        MainActor.assumeIsolated {
+                            priceStore.populateWithDemoData()
+                        }
+                    }
                 }
         }
     }
 
     private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if let error = error {
-                print("Notification permission error: \(error)")
-            }
-            print("Notifications granted: \(granted)")
-        }
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
 }

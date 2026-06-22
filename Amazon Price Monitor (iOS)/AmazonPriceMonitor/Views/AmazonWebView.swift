@@ -7,6 +7,9 @@ import SwiftUI
 import WebKit
 
 struct AmazonWebView: UIViewRepresentable {
+    /// Shared mobile Safari user agent so Amazon serves the same markup to login and cart scraping.
+    static let userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+
     let url: URL
     var onNavigationFinished: ((WKWebView, URL?) -> Void)?
     var webViewRef: ((WKWebView) -> Void)?
@@ -21,7 +24,7 @@ struct AmazonWebView: UIViewRepresentable {
 
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
-        webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+        webView.customUserAgent = AmazonWebView.userAgent
 
         // Allow back/forward swipe
         webView.allowsBackForwardNavigationGestures = true

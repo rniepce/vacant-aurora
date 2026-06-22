@@ -7,6 +7,7 @@ import Foundation
 import UserNotifications
 import Observation
 
+@MainActor
 @Observable
 class PriceStore {
     var items: [CartItem] = []
@@ -17,9 +18,11 @@ class PriceStore {
     private let storageKey = "amazon_price_data"
     private let lastUpdatedKey = "amazon_last_updated"
 
-    // Config
-    var notifyMethod: String = "percentage" // "percentage" or "absolute"
-    var notifyValue: Double = 10
+    /// Notification threshold: notify when a price drops by at least this percentage.
+    private let notifyPercentage: Double = 10
+
+    /// Single reusable formatter (creating one per loop iteration is expensive).
+    private static let iso = ISO8601DateFormatter()
 
     init() {
         load()
@@ -28,8 +31,11 @@ class PriceStore {
     // MARK: - Persistence
 
     func save() {
-        if let data = try? JSONEncoder().encode(items) {
+        do {
+            let data = try JSONEncoder().encode(items)
             UserDefaults.standard.set(data, forKey: storageKey)
+        } catch {
+            errorMessage = String(localized: "Could not save data.")
         }
         if let date = lastUpdated {
             UserDefaults.standard.set(date, forKey: lastUpdatedKey)
@@ -37,143 +43,81 @@ class PriceStore {
     }
 
     func load() {
-        if let data = UserDefaults.standard.data(forKey: storageKey),
-           let decoded = try? JSONDecoder().decode([CartItem].self, from: data) {
-            items = decoded
-        }
         lastUpdated = UserDefaults.standard.object(forKey: lastUpdatedKey) as? Date
+        guard let data = UserDefaults.standard.data(forKey: storageKey) else { return }
+        do {
+            items = try JSONDecoder().decode([CartItem].self, from: data)
+        } catch {
+            // Don't wipe anything silently — surface the problem instead.
+            errorMessage = String(localized: "Could not load saved data.")
+        }
     }
 
-    // MARK: - Process New Items (ported from background.js processItems)
+    // MARK: - Process New Items
 
-    func processNewItems(_ currentItems: [(id: String, title: String, price: Double)]) {
+    func processNewItems(_ currentItems: [(id: String, title: String, price: Double, imageURL: String?)]) {
         var nextItems: [CartItem] = []
+        let now = Date()
 
         for item in currentItems {
             // Find existing item to preserve history
             let existing = items.first(where: { $0.id == item.id })
             var history = existing?.history ?? []
 
-            // Sanitize: keep only prices > 10
+            // Sanitize: keep only plausible prices
             history = history.filter { $0.price > 10 }
 
             let lastEntry = history.last
 
             // Anomaly detection: if price increased > 200%, reset history
-            if let last = lastEntry {
+            if let last = lastEntry, last.price > 0 {
                 let increase = (item.price - last.price) / last.price * 100
                 if increase > 200 {
-                    print("Anomaly for \(item.id): +\(Int(increase))%. Resetting history.")
                     history = []
                 }
             }
 
-            // Notification logic
+            // Notification logic: alert on a meaningful price drop
             if let lastSafe = history.last, lastSafe.price > 10 {
                 let oldPrice = lastSafe.price
                 let priceDiff = oldPrice - item.price
-
-                var shouldNotify = false
-                if notifyMethod == "percentage" {
-                    if (priceDiff / oldPrice) * 100 >= notifyValue { shouldNotify = true }
-                } else {
-                    if priceDiff >= notifyValue { shouldNotify = true }
-                }
-
-                if shouldNotify && priceDiff > 0 {
+                if priceDiff > 0, (priceDiff / oldPrice) * 100 >= notifyPercentage {
                     sendNotification(title: item.title, oldPrice: oldPrice, newPrice: item.price)
                 }
             }
 
-            // Add new entry
-            let newEntry = PriceEntry(
-                date: ISO8601DateFormatter().string(from: Date()),
-                price: item.price
-            )
+            // Add a new entry unless we already recorded this exact price today
+            let newEntry = PriceEntry(date: Self.iso.string(from: now), price: item.price)
+            let lastDate = lastEntry.flatMap { Self.iso.date(from: $0.date) }
+            let sameDay = lastDate.map { Calendar.current.isDate($0, inSameDayAs: now) } ?? false
 
-            let lastDate = lastEntry.flatMap { entry -> String? in
-                let formatter = ISO8601DateFormatter()
-                return formatter.date(from: entry.date).map {
-                    DateFormatter.localizedString(from: $0, dateStyle: .short, timeStyle: .none)
-                }
-            }
-            let currentDate = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
-
-            if lastEntry == nil || lastEntry?.price != item.price || lastDate != currentDate {
+            if lastEntry == nil || lastEntry?.price != item.price || !sameDay {
                 history.append(newEntry)
             }
 
-            // Limit history to 30 entries
+            // Limit history to the most recent 30 entries
             if history.count > 30 {
-                history.removeFirst()
+                history = Array(history.suffix(30))
             }
 
-            nextItems.append(CartItem(id: item.id, title: item.title, history: history))
+            nextItems.append(CartItem(id: item.id, title: item.title, imageURL: item.imageURL, history: history))
         }
 
-        print("Sync complete. Storing \(nextItems.count) items (was \(items.count)).")
         items = nextItems
-        lastUpdated = Date()
+        lastUpdated = now
         save()
-    }
-
-    // MARK: - Import from Chrome Extension JSON
-
-    func importFromJSON(_ data: Data) throws -> Int {
-        // Chrome extension format: { "ASIN": { "title": "...", "history": [{ "date": "...", "price": 123 }] } }
-        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-            throw ImportError.invalidFormat
-        }
-
-        var importedCount = 0
-
-        for (asin, value) in json {
-            guard let dict = value as? [String: Any],
-                  let title = dict["title"] as? String,
-                  let historyArray = dict["history"] as? [[String: Any]] else {
-                continue
-            }
-
-            let history: [PriceEntry] = historyArray.compactMap { entry in
-                guard let date = entry["date"] as? String,
-                      let price = entry["price"] as? Double,
-                      price > 10 else { return nil }
-                return PriceEntry(date: date, price: price)
-            }
-
-            guard !history.isEmpty else { continue }
-
-            // Merge: if item already exists, prepend imported history before existing
-            if let existingIndex = items.firstIndex(where: { $0.id == asin }) {
-                let existingDates = Set(items[existingIndex].history.map(\.date))
-                let newEntries = history.filter { !existingDates.contains($0.date) }
-                items[existingIndex].history = newEntries + items[existingIndex].history
-                // Sort by date
-                items[existingIndex].history.sort { $0.date < $1.date }
-            } else {
-                items.append(CartItem(id: asin, title: title, history: history))
-            }
-            importedCount += 1
-        }
-
-        save()
-        return importedCount
-    }
-
-    enum ImportError: Error, LocalizedError {
-        case invalidFormat
-        var errorDescription: String? {
-            "Formato de arquivo inválido. Use o JSON exportado pela extensão Chrome."
-        }
     }
 
     // MARK: - Notifications
 
     private func sendNotification(title: String, oldPrice: Double, newPrice: Double) {
         let content = UNMutableNotificationContent()
-        content.title = "🔔 Queda de Preço!"
+        content.title = String(localized: "🔔 Price Drop!")
         let shortTitle = title.count > 40 ? String(title.prefix(37)) + "..." : title
-        content.body = "\(shortTitle) caiu de R$ \(String(format: "%.2f", oldPrice)) para R$ \(String(format: "%.2f", newPrice))"
+        content.body = String(
+            format: String(localized: "%1$@ dropped from R$ %2$@ to R$ %3$@"),
+            shortTitle, oldPrice.priceValue, newPrice.priceValue
+        )
         content.sound = .default
 
         let request = UNNotificationRequest(
@@ -182,10 +126,34 @@ class PriceStore {
             trigger: nil
         )
 
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Notification error: \(error)")
-            }
-        }
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+
+    // MARK: - Demo Data (screenshots / `-demoMode` launch argument)
+
+    func populateWithDemoData() {
+        let demoItems: [CartItem] = [
+            CartItem(id: "B0CHX6BKK5", title: "Apple iPhone 15 Pro (256 GB) - Titânio Natural", imageURL: "https://m.media-amazon.com/images/I/41lRlXsSGsL._AC_SY200_.jpg", history: [
+                PriceEntry(date: Self.iso.string(from: Date().addingTimeInterval(-86400 * 5)), price: 9299.00),
+                PriceEntry(date: Self.iso.string(from: Date().addingTimeInterval(-86400 * 2)), price: 8999.00),
+                PriceEntry(date: Self.iso.string(from: Date()), price: 8799.00)
+            ]),
+            CartItem(id: "B09DFCB66S", title: "Console PlayStation 5", imageURL: "https://m.media-amazon.com/images/I/51mWHXY8hyL._AC_SY200_.jpg", history: [
+                PriceEntry(date: Self.iso.string(from: Date().addingTimeInterval(-86400 * 7)), price: 4499.00),
+                PriceEntry(date: Self.iso.string(from: Date().addingTimeInterval(-86400 * 3)), price: 4199.00),
+                PriceEntry(date: Self.iso.string(from: Date()), price: 3999.00)
+            ]),
+            CartItem(id: "B09V3HBW8Q", title: "Kindle Paperwhite 16 GB - Tela de 6,8\", temperatura de luz ajustável", imageURL: "https://m.media-amazon.com/images/I/41QYyFRGqWL._AC_SY200_.jpg", history: [
+                PriceEntry(date: Self.iso.string(from: Date().addingTimeInterval(-86400 * 10)), price: 799.00),
+                PriceEntry(date: Self.iso.string(from: Date()), price: 799.00)
+            ]),
+            CartItem(id: "B084J4WGV9", title: "Echo Dot (4ª Geração): Smart Speaker com Alexa - Cor Preta", imageURL: "https://m.media-amazon.com/images/I/51PBiByf5bL._AC_SY200_.jpg", history: [
+                PriceEntry(date: Self.iso.string(from: Date().addingTimeInterval(-86400 * 15)), price: 399.00),
+                PriceEntry(date: Self.iso.string(from: Date().addingTimeInterval(-86400 * 5)), price: 299.00),
+                PriceEntry(date: Self.iso.string(from: Date()), price: 349.00)
+            ])
+        ]
+        self.items = demoItems
+        self.lastUpdated = Date()
     }
 }

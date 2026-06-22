@@ -14,6 +14,7 @@ struct PriceEntry: Codable, Identifiable {
 struct CartItem: Codable, Identifiable {
     let id: String // ASIN
     var title: String
+    var imageURL: String?
     var history: [PriceEntry]
 
     var currentPrice: Double? {
@@ -45,5 +46,17 @@ struct CartItem: Codable, Identifiable {
         if change < -0.01 { return .down }
         if change > 0.01 { return .up }
         return .stable
+    }
+}
+
+extension Double {
+    /// Price formatted with the user's locale grouping/decimals, without the currency
+    /// symbol (the "R$" prefix is rendered separately in the UI). e.g. "8.799,00" / "8,799.00".
+    var priceValue: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        return formatter.string(from: NSNumber(value: self)) ?? String(format: "%.2f", self)
     }
 }

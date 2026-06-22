@@ -4,20 +4,23 @@
 //
 
 import SwiftUI
-import WebKit
-import UniformTypeIdentifiers
 
-enum SortOption: String, CaseIterable {
-    case biggestDrop = "Maior Queda"
-    case lowestPrice = "Menor Preço"
+enum SortOption: CaseIterable {
+    case biggestDrop
+    case lowestPrice
+
+    var titleKey: LocalizedStringKey {
+        switch self {
+        case .biggestDrop: return "Biggest Drop"
+        case .lowestPrice: return "Lowest Price"
+        }
+    }
 }
 
 struct DashboardView: View {
     @Environment(PriceStore.self) private var store
     @Binding var showLogin: Bool
     @Binding var isLoggedIn: Bool
-    @State private var showImporter = false
-    @State private var importMessage: String?
     @State private var sortOption: SortOption = .biggestDrop
 
     var body: some View {
@@ -28,7 +31,7 @@ struct DashboardView: View {
             VStack(spacing: 0) {
                 if store.isLoading {
                     Spacer()
-                    ProgressView("Lendo carrinho...")
+                    ProgressView("Reading cart...")
                     Spacer()
                 } else if store.items.isEmpty {
                     emptyStateView
@@ -40,7 +43,7 @@ struct DashboardView: View {
         .navigationTitle("Price Monitor")
         .tint(Color(hex: "FF9900"))
         .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     showLogin = true
                 } label: {
@@ -51,9 +54,9 @@ struct DashboardView: View {
 
             ToolbarItemGroup(placement: .bottomBar) {
                 Button {
-                    refreshCart()
+                    Task { await refreshCart() }
                 } label: {
-                    Label("Atualizar", systemImage: "arrow.clockwise")
+                    Label("Refresh", systemImage: "arrow.clockwise")
                 }
                 .modifier(GlassProminentStyle())
                 .tint(Color(hex: "FF9900"))
@@ -62,50 +65,16 @@ struct DashboardView: View {
                 Spacer()
 
                 Menu {
-                    ForEach(SortOption.allCases, id: \.self) { option in
-                        Button {
-                            sortOption = option
-                        } label: {
-                            Label(option.rawValue, systemImage: sortOption == option ? "checkmark" : "")
+                    Picker("Sort", selection: $sortOption) {
+                        ForEach(SortOption.allCases, id: \.self) { option in
+                            Text(option.titleKey).tag(option)
                         }
                     }
                 } label: {
-                    Label(sortOption.rawValue, systemImage: "arrow.up.arrow.down")
+                    Label(sortOption.titleKey, systemImage: "arrow.up.arrow.down")
                 }
                 .modifier(GlassStyle())
             }
-        }
-        .fileImporter(
-            isPresented: $showImporter,
-            allowedContentTypes: [.json],
-            allowsMultipleSelection: false
-        ) { result in
-            switch result {
-            case .success(let urls):
-                guard let url = urls.first else { return }
-                guard url.startAccessingSecurityScopedResource() else {
-                    importMessage = "Sem permissão para acessar arquivo."
-                    return
-                }
-                defer { url.stopAccessingSecurityScopedResource() }
-                do {
-                    let data = try Data(contentsOf: url)
-                    let count = try store.importFromJSON(data)
-                    importMessage = "✅ \(count) itens importados!"
-                } catch {
-                    importMessage = "❌ \(error.localizedDescription)"
-                }
-            case .failure(let error):
-                importMessage = "❌ \(error.localizedDescription)"
-            }
-        }
-        .alert("Importação", isPresented: .init(
-            get: { importMessage != nil },
-            set: { if !$0 { importMessage = nil } }
-        )) {
-            Button("OK") { importMessage = nil }
-        } message: {
-            Text(importMessage ?? "")
         }
     }
 
@@ -113,11 +82,11 @@ struct DashboardView: View {
 
     private var emptyStateView: some View {
         ContentUnavailableView {
-            Label("Nenhum item rastreado", systemImage: "cart")
+            Label("No items tracked", systemImage: "cart")
         } description: {
             Text(isLoggedIn ?
-                 "Toque em \"Atualizar\" para ler seu carrinho da Amazon" :
-                 "Faça login na Amazon primeiro, depois atualize seu carrinho"
+                 "Tap 'Refresh' to read your Amazon cart" :
+                 "Log in to Amazon first, then refresh your cart"
             )
         }
     }
@@ -136,9 +105,14 @@ struct DashboardView: View {
 
             if let date = store.lastUpdated {
                 Section {
-                    Label("Atualizado \(date.formatted(.relative(presentation: .named)))", systemImage: "clock")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    Label {
+                        Text(String(format: String(localized: "Updated %@"),
+                                    date.formatted(.relative(presentation: .named))))
+                    } icon: {
+                        Image(systemName: "clock")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 }
             }
 
@@ -154,7 +128,7 @@ struct DashboardView: View {
         }
         .listStyle(.insetGrouped)
         .refreshable {
-            await refreshCartAsync()
+            await refreshCart()
         }
     }
 
@@ -173,46 +147,24 @@ struct DashboardView: View {
 
     // MARK: - Actions
 
-    private func refreshCart() {
+    @MainActor
+    private func refreshCart() async {
         store.isLoading = true
         store.errorMessage = nil
+        defer { store.isLoading = false }
 
-        CartParser.fetchCart { result in
-            DispatchQueue.main.async {
-                store.isLoading = false
-                switch result {
-                case .success(let items):
-                    store.processNewItems(items)
-                    store.errorMessage = nil
-                    isLoggedIn = true
-                case .failure(let error):
-                    store.errorMessage = error.localizedDescription
-                    if case .loginRequired = error {
-                        isLoggedIn = false
-                    }
-                }
+        do {
+            let items = try await CartParser.fetchCart()
+            store.processNewItems(items)
+            store.errorMessage = nil
+            isLoggedIn = true
+        } catch let error as CartParserError {
+            store.errorMessage = error.localizedDescription
+            if case .loginRequired = error {
+                isLoggedIn = false
             }
-        }
-    }
-
-    private func refreshCartAsync() async {
-        await withCheckedContinuation { continuation in
-            CartParser.fetchCart { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let items):
-                        store.processNewItems(items)
-                        store.errorMessage = nil
-                        isLoggedIn = true
-                    case .failure(let error):
-                        store.errorMessage = error.localizedDescription
-                        if case .loginRequired = error {
-                            isLoggedIn = false
-                        }
-                    }
-                    continuation.resume()
-                }
-            }
+        } catch {
+            store.errorMessage = error.localizedDescription
         }
     }
 }
@@ -224,15 +176,27 @@ struct ItemRowView: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            // Product image placeholder with glass feel
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(.ultraThinMaterial)
-                Image(systemName: "shippingbox")
-                    .font(.system(size: 22, weight: .light))
-                    .foregroundStyle(.secondary)
+            // Product image
+            if let urlString = item.imageURL, let url = URL(string: urlString) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    case .failure:
+                        imagePlaceholder
+                    case .empty:
+                        ProgressView()
+                    @unknown default:
+                        imagePlaceholder
+                    }
+                }
+                .frame(width: 56, height: 56)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            } else {
+                imagePlaceholder
             }
-            .frame(width: 56, height: 56)
 
             VStack(alignment: .leading, spacing: 5) {
                 // Product title
@@ -247,7 +211,7 @@ struct ItemRowView: View {
                         HStack(alignment: .firstTextBaseline, spacing: 2) {
                             Text("R$")
                                 .font(.caption)
-                            Text(String(format: "%.2f", price))
+                            Text(price.priceValue)
                                 .font(.subheadline.weight(.bold))
                         }
                         .foregroundStyle(Color(hex: "FF9900"))
@@ -280,6 +244,17 @@ struct ItemRowView: View {
                 .shadow(color: trendColor.opacity(0.5), radius: 3)
         }
         .padding(.vertical, 4)
+    }
+
+    private var imagePlaceholder: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.ultraThinMaterial)
+            Image(systemName: "shippingbox")
+                .font(.system(size: 22, weight: .light))
+                .foregroundStyle(.secondary)
+        }
+        .frame(width: 56, height: 56)
     }
 
     private var trendColor: Color {

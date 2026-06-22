@@ -4,7 +4,6 @@
 //
 
 import SwiftUI
-import WebKit
 
 struct ContentView: View {
     @Environment(PriceStore.self) private var store
@@ -19,17 +18,8 @@ struct ContentView: View {
             LoginView(isLoggedIn: $isLoggedIn, showLogin: $showLogin)
         }
         .onAppear {
-            // Check if we have cookies (approximate login check)
-            checkLoginStatus()
-        }
-    }
-
-    private func checkLoginStatus() {
-        WKWebsiteDataStore.default().httpCookieStore.getAllCookies { cookies in
-            let amazonCookies = cookies.filter { $0.domain.contains("amazon.com.br") }
-            let hasSession = amazonCookies.contains { $0.name == "session-id" || $0.name == "at-main" }
-            DispatchQueue.main.async {
-                isLoggedIn = hasSession
+            AmazonAuth.isLoggedIn { loggedIn in
+                isLoggedIn = loggedIn
             }
         }
     }

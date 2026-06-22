@@ -9,14 +9,18 @@ import Charts
 struct ItemDetailView: View {
     let item: CartItem
 
+    private var amazonURL: URL? {
+        URL(string: "https://www.amazon.com.br/dp/\(item.id)")
+    }
+
     var body: some View {
         List {
             // Stats Cards
             Section {
                 HStack(spacing: 12) {
-                    StatCard(label: "Atual", value: formatPrice(item.currentPrice), color: Color(hex: "FF9900"))
-                    StatCard(label: "Menor", value: formatPrice(item.lowestPrice), color: Color(hex: "007600"))
-                    StatCard(label: "Maior", value: formatPrice(item.highestPrice), color: Color(hex: "CC0C39"))
+                    StatCard(label: "Current", value: formatPrice(item.currentPrice), color: Color(hex: "FF9900"))
+                    StatCard(label: "Lowest", value: formatPrice(item.lowestPrice), color: Color(hex: "007600"))
+                    StatCard(label: "Highest", value: formatPrice(item.highestPrice), color: Color(hex: "CC0C39"))
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
@@ -28,7 +32,8 @@ struct ItemDetailView: View {
                     HStack(spacing: 6) {
                         Image(systemName: change < 0 ? "arrow.down.circle.fill" : "arrow.up.circle.fill")
                             .foregroundStyle(change < 0 ? Color(hex: "007600") : Color(hex: "CC0C39"))
-                        Text("\(String(format: "%.1f", abs(change)))% desde o primeiro registro")
+                        Text(String(format: String(localized: "%@ since first record"),
+                                    String(format: "%.1f%%", abs(change))))
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(change < 0 ? Color(hex: "007600") : Color(hex: "CC0C39"))
                     }
@@ -37,22 +42,22 @@ struct ItemDetailView: View {
 
             // Chart
             if item.history.count >= 2 {
-                Section("Histórico de Preço") {
+                Section("Price History") {
                     chartView
                         .listRowInsets(EdgeInsets(top: 12, leading: 0, bottom: 12, trailing: 0))
                 }
             } else {
                 Section {
                     ContentUnavailableView {
-                        Label("Dados insuficientes", systemImage: "chart.line.uptrend.xyaxis")
+                        Label("Insufficient data", systemImage: "chart.line.uptrend.xyaxis")
                     } description: {
-                        Text("São necessários ao menos 2 registros para o gráfico")
+                        Text("At least 2 records are needed for the chart")
                     }
                 }
             }
 
             // Price History List
-            Section("Registros") {
+            Section("Records") {
                 ForEach(item.history.reversed()) { entry in
                     HStack {
                         if let date = parseDate(entry.date) {
@@ -64,7 +69,7 @@ struct ItemDetailView: View {
                         HStack(alignment: .firstTextBaseline, spacing: 2) {
                             Text("R$")
                                 .font(.caption)
-                            Text(String(format: "%.2f", entry.price))
+                            Text(entry.price.priceValue)
                                 .font(.subheadline.weight(.semibold))
                         }
                         .foregroundStyle(Color(hex: "FF9900"))
@@ -73,13 +78,15 @@ struct ItemDetailView: View {
             }
 
             // Amazon Link
-            Section {
-                Link(destination: URL(string: "https://www.amazon.com.br/dp/\(item.id)")!) {
-                    Label("Ver na Amazon", systemImage: "safari")
-                        .font(.subheadline.weight(.semibold))
-                        .frame(maxWidth: .infinity)
+            if let url = amazonURL {
+                Section {
+                    Link(destination: url) {
+                        Label("View on Amazon", systemImage: "safari")
+                            .font(.subheadline.weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                    }
+                    .tint(Color(hex: "FF9900"))
                 }
-                .tint(Color(hex: "FF9900"))
             }
         }
         .listStyle(.insetGrouped)
@@ -95,8 +102,8 @@ struct ItemDetailView: View {
             ForEach(item.history) { entry in
                 if let date = parseDate(entry.date) {
                     AreaMark(
-                        x: .value("Data", date),
-                        y: .value("Preço", entry.price)
+                        x: .value("Date", date),
+                        y: .value("Price", entry.price)
                     )
                     .foregroundStyle(
                         LinearGradient(
@@ -108,16 +115,16 @@ struct ItemDetailView: View {
                     .interpolationMethod(.catmullRom)
 
                     LineMark(
-                        x: .value("Data", date),
-                        y: .value("Preço", entry.price)
+                        x: .value("Date", date),
+                        y: .value("Price", entry.price)
                     )
                     .foregroundStyle(Color(hex: "FF9900"))
                     .lineStyle(StrokeStyle(lineWidth: 2.5))
                     .interpolationMethod(.catmullRom)
 
                     PointMark(
-                        x: .value("Data", date),
-                        y: .value("Preço", entry.price)
+                        x: .value("Date", date),
+                        y: .value("Price", entry.price)
                     )
                     .foregroundStyle(Color(hex: "FF9900"))
                     .symbolSize(24)
@@ -128,7 +135,7 @@ struct ItemDetailView: View {
             AxisMarks(position: .leading) { value in
                 AxisValueLabel {
                     if let price = value.as(Double.self) {
-                        Text("R$\(Int(price))")
+                        Text("R$" + price.formatted(.number.precision(.fractionLength(0))))
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
@@ -154,8 +161,8 @@ struct ItemDetailView: View {
     // MARK: - Helpers
 
     private func formatPrice(_ price: Double?) -> String {
-        guard let price = price else { return "-" }
-        return "R$ \(String(format: "%.2f", price))"
+        guard let price else { return "—" }
+        return "R$ \(price.priceValue)"
     }
 
     private func parseDate(_ iso: String) -> Date? {
@@ -170,7 +177,7 @@ struct ItemDetailView: View {
 // MARK: - Stat Card
 
 struct StatCard: View {
-    let label: String
+    let label: LocalizedStringKey
     let value: String
     let color: Color
 

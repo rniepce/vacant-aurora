@@ -5,12 +5,33 @@
 
 import WebKit
 
-class CartParser {
+typealias CartScrapeItem = (id: String, title: String, price: Double, imageURL: String?)
+
+enum CartParserError: Error, LocalizedError {
+    case loginRequired
+    case noItems
+    case timeout
+    case parseError(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .loginRequired:
+            return String(localized: "You need to log in to Amazon first.")
+        case .noItems:
+            return String(localized: "No items found in the cart.")
+        case .timeout:
+            return String(localized: "Timed out reading the cart. Please try again.")
+        case .parseError(let msg):
+            return String(format: String(localized: "Error reading cart: %@"), msg)
+        }
+    }
+}
+
+enum CartParser {
 
     static let cartURL = URL(string: "https://www.amazon.com.br/gp/cart/view.html")!
 
-    /// JavaScript that parses the Amazon cart HTML and returns JSON array of items.
-    /// Ported from offscreen.js parseCart() and parseCurrency() functions.
+    /// JavaScript that parses the Amazon cart HTML and returns a JSON array of items.
     static let parserScript = """
     (function() {
         function parseCurrency(str) {
@@ -49,11 +70,22 @@ class CartParser {
             const asin = el.getAttribute('data-asin');
             if (!asin) return;
 
-            let title = 'Produto Desconhecido';
+            let title = 'Unknown Product';
             const titleSelectors = ['.sc-product-title', '.a-truncate-full', '.sc-grid-item-product-title', 'span.a-list-item a.a-link-normal span'];
             for (const sel of titleSelectors) {
                 const tEl = el.querySelector(sel);
                 if (tEl) { title = tEl.textContent.trim(); break; }
+            }
+
+            // Extract product image URL
+            let imageURL = '';
+            const imgSelectors = ['.sc-product-image img', '.sc-item-image img', 'img[alt]', 'img'];
+            for (const sel of imgSelectors) {
+                const imgEl = el.querySelector(sel);
+                if (imgEl && imgEl.src && !imgEl.src.includes('transparent-pixel') && !imgEl.src.includes('spacer')) {
+                    imageURL = imgEl.src;
+                    break;
+                }
             }
 
             let priceRaw = '';
@@ -91,7 +123,7 @@ class CartParser {
             if (priceRaw) {
                 const priceVal = parseCurrency(priceRaw);
                 if (priceVal !== null && priceVal > 10) {
-                    results.push({ id: asin, title: title, price: priceVal });
+                    results.push({ id: asin, title: title, price: priceVal, imageURL: imageURL || null });
                 }
             }
         });
@@ -100,20 +132,23 @@ class CartParser {
     })();
     """
 
-    /// Fetches and parses the cart using a hidden WKWebView
-    static func fetchCart(completion: @escaping (Result<[(id: String, title: String, price: Double)], CartParserError>) -> Void) {
-        DispatchQueue.main.async {
+    /// Fetches and parses the cart using a hidden WKWebView.
+    @MainActor
+    static func fetchCart() async throws -> [CartScrapeItem] {
+        try await withCheckedThrowingContinuation { continuation in
             let config = WKWebViewConfiguration()
-            config.websiteDataStore = .default() // Uses same cookies as login webview
+            config.websiteDataStore = .default() // Uses same cookies as the login web view
 
             let webView = WKWebView(frame: .zero, configuration: config)
-            webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+            webView.customUserAgent = AmazonWebView.userAgent
 
-            let delegate = CartParserDelegate(webView: webView, completion: completion)
+            // The delegate keeps the web view alive and resumes the continuation exactly once.
+            let delegate = CartParserDelegate(webView: webView) { result in
+                continuation.resume(with: result)
+            }
             webView.navigationDelegate = delegate
-
-            // We need to retain the delegate
-            objc_setAssociatedObject(webView, "delegate", delegate, .OBJC_ASSOCIATION_RETAIN)
+            // Retain the delegate for the lifetime of the web view (navigationDelegate is weak).
+            objc_setAssociatedObject(webView, &CartParserDelegate.assocKey, delegate, .OBJC_ASSOCIATION_RETAIN)
 
             let request = URLRequest(url: cartURL, cachePolicy: .reloadIgnoringLocalCacheData)
             webView.load(request)
@@ -121,93 +156,115 @@ class CartParser {
     }
 }
 
-enum CartParserError: Error, LocalizedError {
-    case loginRequired
-    case noItems
-    case parseError(String)
+private final class CartParserDelegate: NSObject, WKNavigationDelegate {
+    static var assocKey: UInt8 = 0
 
-    var errorDescription: String? {
-        switch self {
-        case .loginRequired: return "Você precisa fazer login na Amazon primeiro."
-        case .noItems: return "Nenhum item encontrado no carrinho."
-        case .parseError(let msg): return "Erro ao ler carrinho: \(msg)"
-        }
-    }
-}
+    private let webView: WKWebView
+    private let completion: (Result<[CartScrapeItem], CartParserError>) -> Void
+    private var hasCompleted = false
+    private var watchdog: Timer?
 
-private class CartParserDelegate: NSObject, WKNavigationDelegate {
-    let webView: WKWebView
-    let completion: (Result<[(id: String, title: String, price: Double)], CartParserError>) -> Void
-    var hasCompleted = false
-
-    init(webView: WKWebView, completion: @escaping (Result<[(id: String, title: String, price: Double)], CartParserError>) -> Void) {
+    init(webView: WKWebView, completion: @escaping (Result<[CartScrapeItem], CartParserError>) -> Void) {
         self.webView = webView
         self.completion = completion
+        super.init()
+        // Guarantee we always finish, even if the page never loads (captcha, hang, redirect loop).
+        watchdog = Timer.scheduledTimer(withTimeInterval: 25, repeats: false) { [weak self] _ in
+            self?.finish(.failure(.timeout))
+        }
+    }
+
+    /// Completes exactly once and fully tears down the web view, breaking the
+    /// web view <-> delegate retain cycle so neither leaks.
+    private func finish(_ result: Result<[CartScrapeItem], CartParserError>) {
+        guard !hasCompleted else { return }
+        hasCompleted = true
+        watchdog?.invalidate()
+        watchdog = nil
+        webView.stopLoading()
+        webView.navigationDelegate = nil
+        objc_setAssociatedObject(webView, &CartParserDelegate.assocKey, nil, .OBJC_ASSOCIATION_RETAIN)
+        completion(result)
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         guard !hasCompleted else { return }
 
-        // Check if we were redirected to login
+        // Detect a redirect to the sign-in page.
         if let url = webView.url?.absoluteString,
-           (url.contains("signin") || url.contains("ap/signin")) {
-            hasCompleted = true
-            completion(.failure(.loginRequired))
+           url.contains("signin") || url.contains("ap/signin") {
+            finish(.failure(.loginRequired))
             return
         }
 
-        // Wait a moment for dynamic content to load, then inject parser
+        // Give dynamic content a moment to render, then inject the parser.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            guard let self = self, !self.hasCompleted else { return }
+            guard let self, !self.hasCompleted else { return }
 
-            webView.evaluateJavaScript(CartParser.parserScript) { result, error in
-                self.hasCompleted = true
+            webView.evaluateJavaScript(CartParser.parserScript) { [weak self] result, error in
+                guard let self else { return }
 
-                if let error = error {
-                    self.completion(.failure(.parseError(error.localizedDescription)))
+                if let error {
+                    self.finish(.failure(.parseError(error.localizedDescription)))
                     return
                 }
 
                 guard let jsonString = result as? String,
                       let data = jsonString.data(using: .utf8) else {
-                    self.completion(.failure(.parseError("Invalid response")))
+                    self.finish(.failure(.parseError(String(localized: "Invalid response"))))
                     return
                 }
 
                 do {
-                    if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                        if let _ = json["error"] as? String {
-                            self.completion(.failure(.loginRequired))
-                            return
-                        }
-
-                        if let itemsArray = json["items"] as? [[String: Any]] {
-                            let items = itemsArray.compactMap { dict -> (id: String, title: String, price: Double)? in
-                                guard let id = dict["id"] as? String,
-                                      let title = dict["title"] as? String,
-                                      let price = dict["price"] as? Double else { return nil }
-                                return (id: id, title: title, price: price)
-                            }
-
-                            if items.isEmpty {
-                                self.completion(.failure(.noItems))
-                            } else {
-                                self.completion(.success(items))
-                            }
-                        } else {
-                            self.completion(.failure(.noItems))
-                        }
+                    guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                        self.finish(.failure(.noItems))
+                        return
                     }
+                    if json["error"] != nil {
+                        self.finish(.failure(.loginRequired))
+                        return
+                    }
+                    guard let itemsArray = json["items"] as? [[String: Any]] else {
+                        self.finish(.failure(.noItems))
+                        return
+                    }
+
+                    let items: [CartScrapeItem] = itemsArray.compactMap { dict in
+                        guard let id = dict["id"] as? String,
+                              let title = dict["title"] as? String,
+                              let price = dict["price"] as? Double else { return nil }
+                        return (id: id, title: title, price: price, imageURL: dict["imageURL"] as? String)
+                    }
+
+                    self.finish(items.isEmpty ? .failure(.noItems) : .success(items))
                 } catch {
-                    self.completion(.failure(.parseError(error.localizedDescription)))
+                    self.finish(.failure(.parseError(error.localizedDescription)))
                 }
             }
         }
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        guard !hasCompleted else { return }
-        hasCompleted = true
-        completion(.failure(.parseError(error.localizedDescription)))
+        finish(.failure(.parseError(error.localizedDescription)))
+    }
+
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        finish(.failure(.parseError(error.localizedDescription)))
+    }
+}
+
+// MARK: - Amazon login state
+
+enum AmazonAuth {
+    /// Considers the user logged in only when a real auth cookie is present.
+    /// `session-id` alone is set for anonymous sessions, so it is intentionally ignored.
+    static func isLoggedIn(_ completion: @escaping (Bool) -> Void) {
+        WKWebsiteDataStore.default().httpCookieStore.getAllCookies { cookies in
+            let loggedIn = cookies.contains { cookie in
+                cookie.domain.hasSuffix("amazon.com.br")
+                    && (cookie.name == "at-main" || cookie.name == "sess-at-main")
+            }
+            DispatchQueue.main.async { completion(loggedIn) }
+        }
     }
 }
