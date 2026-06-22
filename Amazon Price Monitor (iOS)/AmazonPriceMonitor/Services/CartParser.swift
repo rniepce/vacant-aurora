@@ -267,4 +267,18 @@ enum AmazonAuth {
             DispatchQueue.main.async { completion(loggedIn) }
         }
     }
+
+    /// Clears the Amazon web session (cookies, caches, local storage) used by the
+    /// login and cart web views, so the next refresh requires signing in again.
+    /// Locally stored price history is left untouched.
+    static func signOut(_ completion: @escaping () -> Void) {
+        let store = WKWebsiteDataStore.default()
+        let types = WKWebsiteDataStore.allWebsiteDataTypes()
+        store.fetchDataRecords(ofTypes: types) { records in
+            let amazonRecords = records.filter { $0.displayName.contains("amazon") }
+            store.removeData(ofTypes: types, for: amazonRecords) {
+                DispatchQueue.main.async { completion() }
+            }
+        }
+    }
 }

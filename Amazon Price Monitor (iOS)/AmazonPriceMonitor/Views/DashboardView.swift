@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 enum SortOption: CaseIterable {
     case biggestDrop
@@ -44,11 +45,29 @@ struct DashboardView: View {
         .tint(Color(hex: "FF9900"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showLogin = true
-                } label: {
-                    Image(systemName: isLoggedIn ? "person.crop.circle.fill" : "person.crop.circle.badge.exclamationmark")
-                        .foregroundStyle(isLoggedIn ? Color(hex: "4CAF50") : Color(hex: "FF9900"))
+                if isLoggedIn {
+                    Menu {
+                        Button {
+                            showLogin = true
+                        } label: {
+                            Label("Amazon Login", systemImage: "person.crop.circle")
+                        }
+                        Button(role: .destructive, action: signOut) {
+                            Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
+                        }
+                    } label: {
+                        Image(systemName: "person.crop.circle.fill")
+                            .foregroundStyle(Color(hex: "4CAF50"))
+                    }
+                    .accessibilityLabel("Account")
+                } else {
+                    Button {
+                        showLogin = true
+                    } label: {
+                        Image(systemName: "person.crop.circle.badge.exclamationmark")
+                            .foregroundStyle(Color(hex: "FF9900"))
+                    }
+                    .accessibilityLabel("Account")
                 }
             }
 
@@ -84,10 +103,17 @@ struct DashboardView: View {
         ContentUnavailableView {
             Label("No items tracked", systemImage: "cart")
         } description: {
-            Text(isLoggedIn ?
-                 "Tap 'Refresh' to read your Amazon cart" :
-                 "Log in to Amazon first, then refresh your cart"
-            )
+            VStack(spacing: 8) {
+                Text(isLoggedIn ?
+                     "Tap 'Refresh' to read your Amazon cart" :
+                     "Log in to Amazon first, then refresh your cart"
+                )
+                if let error = store.errorMessage {
+                    Text(error)
+                        .font(.callout)
+                        .foregroundStyle(.red)
+                }
+            }
         }
     }
 
@@ -167,6 +193,12 @@ struct DashboardView: View {
             store.errorMessage = error.localizedDescription
         }
     }
+
+    private func signOut() {
+        AmazonAuth.signOut {
+            isLoggedIn = false
+        }
+    }
 }
 
 // MARK: - Item Row (Amazon-style within Liquid Glass)
@@ -214,7 +246,7 @@ struct ItemRowView: View {
                             Text(price.priceValue)
                                 .font(.subheadline.weight(.bold))
                         }
-                        .foregroundStyle(Color(hex: "FF9900"))
+                        .foregroundStyle(.priceText)
                     }
 
                     if let change = item.priceChangePercent, abs(change) > 0.01 {
@@ -244,6 +276,22 @@ struct ItemRowView: View {
                 .shadow(color: trendColor.opacity(0.5), radius: 3)
         }
         .padding(.vertical, 4)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(rowAccessibilityLabel)
+    }
+
+    private var rowAccessibilityLabel: Text {
+        var parts = [item.title]
+        if let price = item.currentPrice {
+            parts.append("R$ \(price.priceValue)")
+        }
+        if let change = item.priceChangePercent, abs(change) > 0.01 {
+            let pct = String(format: "%.1f%%", abs(change))
+            parts.append(change < 0
+                ? String(localized: "Price fell \(pct)")
+                : String(localized: "Price rose \(pct)"))
+        }
+        return Text(parts.joined(separator: ", "))
     }
 
     private var imagePlaceholder: some View {
@@ -289,6 +337,23 @@ struct GlassStyle: ViewModifier {
 }
 
 // MARK: - Color Extension
+
+extension ShapeStyle where Self == Color {
+    /// Bright Amazon-style orange — used for tints, buttons, and chart strokes,
+    /// i.e. on filled/glass surfaces where text contrast is not the concern.
+    static var brandOrange: Color { Color(hex: "FF9900") }
+
+    /// Orange used for price *text*. The bright brand orange on a plain background
+    /// only reaches ~1.9:1 contrast (fails WCAG AA), so this darkens it in light mode
+    /// and brightens it in dark mode — legible text that still reads as the brand.
+    static var priceText: Color {
+        Color(uiColor: UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(red: 0.984, green: 0.749, blue: 0.141, alpha: 1) // #FBBF24
+                : UIColor(red: 0.706, green: 0.325, blue: 0.035, alpha: 1) // #B45309
+        })
+    }
+}
 
 extension Color {
     init(hex: String) {

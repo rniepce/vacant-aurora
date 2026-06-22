@@ -11,22 +11,12 @@
         }
       }
     },
-    "%1$@ dropped from R$ %2$@ to R$ %3$@" : {
+    "Account" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ caiu de R$ %2$@ para R$ %3$@"
-          }
-        }
-      }
-    },
-    "🔔 Price Drop!" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🔔 Queda de Preço!"
+            "value" : "Conta"
           }
         }
       }
@@ -217,6 +207,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhum item monitorado"
+          }
+        }
+      }
+    },
+    "Price fell %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço caiu %@"
+          }
+        }
+      }
+    },
+    "Price rose %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço subiu %@"
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sair"
           }
         }
       }
