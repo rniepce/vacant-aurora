@@ -97,6 +97,13 @@ struct DashboardView: View {
                 .disabled(store.isLoading)
             }
         }
+        .onChange(of: isLoggedIn) { wasLoggedIn, nowLoggedIn in
+            // A fresh sign-in (false -> true) auto-loads the cart, so the user
+            // doesn't have to tap Refresh right after logging in.
+            if !wasLoggedIn && nowLoggedIn && !store.isLoading {
+                Task { await refreshCart() }
+            }
+        }
     }
 
     // MARK: - Empty State
