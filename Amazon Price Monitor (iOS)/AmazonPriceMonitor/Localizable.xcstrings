@@ -368,6 +368,16 @@
         }
       }
     },
+    "View demo" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver demonstração"
+          }
+        }
+      }
+    },
     "View on Amazon" : {
       "localizations" : {
         "pt-BR" : {

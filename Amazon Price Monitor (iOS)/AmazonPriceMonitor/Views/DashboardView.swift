@@ -123,6 +123,16 @@ struct DashboardView: View {
                         .foregroundStyle(.red)
                 }
             }
+        } actions: {
+            // Lets anyone (including App Review) preview the app with sample data,
+            // without signing into Amazon. Demo data is in-memory only (not saved).
+            Button {
+                store.populateWithDemoData()
+            } label: {
+                Label("View demo", systemImage: "play.circle")
+            }
+            .modifier(GlassStyle())
+            .tint(.brandOrange)
         }
     }
 
