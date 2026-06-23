@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 enum SortOption: CaseIterable {
     case biggestDrop
@@ -40,30 +41,37 @@ struct DashboardView: View {
                 }
             }
         }
-        .navigationTitle("Price Monitor")
-        .tint(Color(hex: "FF9900"))
+        .navigationTitle(Text(verbatim: "Radar de Preços"))
+        .tint(.brandOrange)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showLogin = true
-                } label: {
-                    Image(systemName: isLoggedIn ? "person.crop.circle.fill" : "person.crop.circle.badge.exclamationmark")
-                        .foregroundStyle(isLoggedIn ? Color(hex: "4CAF50") : Color(hex: "FF9900"))
+                if isLoggedIn {
+                    Menu {
+                        Button {
+                            showLogin = true
+                        } label: {
+                            Label("Amazon Login", systemImage: "person.crop.circle")
+                        }
+                        Button(role: .destructive, action: signOut) {
+                            Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
+                        }
+                    } label: {
+                        Image(systemName: "person.crop.circle")
+                            .foregroundStyle(.secondary)
+                    }
+                    .accessibilityLabel("Account")
+                } else {
+                    Button {
+                        showLogin = true
+                    } label: {
+                        Image(systemName: "person.crop.circle.badge.exclamationmark")
+                            .foregroundStyle(Color(hex: "FF9900"))
+                    }
+                    .accessibilityLabel("Account")
                 }
             }
 
             ToolbarItemGroup(placement: .bottomBar) {
-                Button {
-                    Task { await refreshCart() }
-                } label: {
-                    Label("Refresh", systemImage: "arrow.clockwise")
-                }
-                .modifier(GlassProminentStyle())
-                .tint(Color(hex: "FF9900"))
-                .disabled(store.isLoading)
-
-                Spacer()
-
                 Menu {
                     Picker("Sort", selection: $sortOption) {
                         ForEach(SortOption.allCases, id: \.self) { option in
@@ -73,7 +81,27 @@ struct DashboardView: View {
                 } label: {
                     Label(sortOption.titleKey, systemImage: "arrow.up.arrow.down")
                 }
+                .labelStyle(.titleAndIcon)
                 .modifier(GlassStyle())
+
+                Spacer()
+
+                Button {
+                    Task { await refreshCart() }
+                } label: {
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                }
+                .labelStyle(.titleAndIcon)
+                .modifier(GlassProminentStyle())
+                .tint(.brandOrange)
+                .disabled(store.isLoading)
+            }
+        }
+        .onChange(of: isLoggedIn) { wasLoggedIn, nowLoggedIn in
+            // A fresh sign-in (false -> true) auto-loads the cart, so the user
+            // doesn't have to tap Refresh right after logging in.
+            if !wasLoggedIn && nowLoggedIn && !store.isLoading {
+                Task { await refreshCart() }
             }
         }
     }
@@ -84,10 +112,27 @@ struct DashboardView: View {
         ContentUnavailableView {
             Label("No items tracked", systemImage: "cart")
         } description: {
-            Text(isLoggedIn ?
-                 "Tap 'Refresh' to read your Amazon cart" :
-                 "Log in to Amazon first, then refresh your cart"
-            )
+            VStack(spacing: 8) {
+                Text(isLoggedIn ?
+                     "Tap 'Refresh' to read your Amazon cart" :
+                     "Log in to Amazon first, then refresh your cart"
+                )
+                if let error = store.errorMessage {
+                    Text(error)
+                        .font(.callout)
+                        .foregroundStyle(.red)
+                }
+            }
+        } actions: {
+            // Lets anyone (including App Review) preview the app with sample data,
+            // without signing into Amazon. Demo data is in-memory only (not saved).
+            Button {
+                store.populateWithDemoData()
+            } label: {
+                Label("View demo", systemImage: "play.circle")
+            }
+            .modifier(GlassStyle())
+            .tint(.brandOrange)
         }
     }
 
@@ -95,24 +140,23 @@ struct DashboardView: View {
 
     private var itemListView: some View {
         List {
+            if store.totalSavings > 0 {
+                Section {
+                    SavingsHeroCard(
+                        totalSavings: store.totalSavings,
+                        droppingCount: store.droppingCount,
+                        totalCount: store.items.count
+                    )
+                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
+                    .listRowBackground(Color.clear)
+                }
+            }
+
             if let error = store.errorMessage {
                 Section {
                     Label(error, systemImage: "exclamationmark.triangle")
                         .font(.caption)
                         .foregroundStyle(.red)
-                }
-            }
-
-            if let date = store.lastUpdated {
-                Section {
-                    Label {
-                        Text(String(format: String(localized: "Updated %@"),
-                                    date.formatted(.relative(presentation: .named))))
-                    } icon: {
-                        Image(systemName: "clock")
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
                 }
             }
 
@@ -124,6 +168,8 @@ struct DashboardView: View {
                         ItemRowView(item: item)
                     }
                 }
+            } header: {
+                Text(listHeaderText)
             }
         }
         .listStyle(.insetGrouped)
@@ -143,6 +189,15 @@ struct DashboardView: View {
                 (a.currentPrice ?? .infinity) < (b.currentPrice ?? .infinity)
             }
         }
+    }
+
+    /// Section header: "Updated <when> · N items" — replaces the search-bar-shaped pill.
+    private var listHeaderText: String {
+        let itemsText = String(format: String(localized: "%lld items"), store.items.count)
+        guard let date = store.lastUpdated else { return itemsText }
+        let updated = String(format: String(localized: "Updated %@"),
+                             date.formatted(.relative(presentation: .named)))
+        return "\(updated) · \(itemsText)"
     }
 
     // MARK: - Actions
@@ -165,6 +220,12 @@ struct DashboardView: View {
             }
         } catch {
             store.errorMessage = error.localizedDescription
+        }
+    }
+
+    private func signOut() {
+        AmazonAuth.signOut {
+            isLoggedIn = false
         }
     }
 }
@@ -214,7 +275,7 @@ struct ItemRowView: View {
                             Text(price.priceValue)
                                 .font(.subheadline.weight(.bold))
                         }
-                        .foregroundStyle(Color(hex: "FF9900"))
+                        .foregroundStyle(.priceText)
                     }
 
                     if let change = item.priceChangePercent, abs(change) > 0.01 {
@@ -233,17 +294,34 @@ struct ItemRowView: View {
                         .clipShape(Capsule())
                     }
                 }
+
+                // Lowest price ever recorded
+                if let low = item.lowestPrice {
+                    Text(verbatim: "\(String(localized: "Lowest")) · R$ \(low.priceValue)")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                }
             }
 
             Spacer(minLength: 0)
-
-            // Trend indicator
-            Circle()
-                .fill(trendColor)
-                .frame(width: 8, height: 8)
-                .shadow(color: trendColor.opacity(0.5), radius: 3)
         }
         .padding(.vertical, 4)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(rowAccessibilityLabel)
+    }
+
+    private var rowAccessibilityLabel: Text {
+        var parts = [item.title]
+        if let price = item.currentPrice {
+            parts.append("R$ \(price.priceValue)")
+        }
+        if let change = item.priceChangePercent, abs(change) > 0.01 {
+            let pct = String(format: "%.1f%%", abs(change))
+            parts.append(change < 0
+                ? String(localized: "Price fell \(pct)")
+                : String(localized: "Price rose \(pct)"))
+        }
+        return Text(parts.joined(separator: ", "))
     }
 
     private var imagePlaceholder: some View {
@@ -256,13 +334,49 @@ struct ItemRowView: View {
         }
         .frame(width: 56, height: 56)
     }
+}
 
-    private var trendColor: Color {
-        switch item.trend {
-        case .down: return Color(hex: "007600")
-        case .up: return Color(hex: "CC0C39")
-        case .stable: return Color(hex: "E0A800")
+// MARK: - Savings Hero
+
+struct SavingsHeroCard: View {
+    let totalSavings: Double
+    let droppingCount: Int
+    let totalCount: Int
+
+    private let positive = Color(hex: "007600")
+
+    var body: some View {
+        HStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text("Tracked savings")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                HStack(alignment: .firstTextBaseline, spacing: 3) {
+                    Text(verbatim: "−R$")
+                        .font(.title3.weight(.semibold))
+                    Text(totalSavings.priceValue)
+                        .font(.title2.weight(.bold))
+                }
+                .foregroundStyle(positive)
+
+                Text(String(format: String(localized: "%1$lld of %2$lld dropping"),
+                            droppingCount, totalCount))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer(minLength: 0)
+
+            Image(systemName: "chart.line.downtrend.xyaxis")
+                .font(.system(size: 34))
+                .foregroundStyle(positive.opacity(0.45))
+                .accessibilityHidden(true)
         }
+        .padding(16)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -289,6 +403,23 @@ struct GlassStyle: ViewModifier {
 }
 
 // MARK: - Color Extension
+
+extension ShapeStyle where Self == Color {
+    /// Bright Amazon-style orange — used for tints, buttons, and chart strokes,
+    /// i.e. on filled/glass surfaces where text contrast is not the concern.
+    static var brandOrange: Color { Color(hex: "FF9900") }
+
+    /// Orange used for price *text*. The bright brand orange on a plain background
+    /// only reaches ~1.9:1 contrast (fails WCAG AA), so this darkens it in light mode
+    /// and brightens it in dark mode — legible text that still reads as the brand.
+    static var priceText: Color {
+        Color(uiColor: UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(red: 0.984, green: 0.749, blue: 0.141, alpha: 1) // #FBBF24
+                : UIColor(red: 0.706, green: 0.325, blue: 0.035, alpha: 1) // #B45309
+        })
+    }
+}
 
 extension Color {
     init(hex: String) {

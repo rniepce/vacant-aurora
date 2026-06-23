@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import UserNotifications
 import Observation
 
 @MainActor
@@ -18,14 +17,26 @@ class PriceStore {
     private let storageKey = "amazon_price_data"
     private let lastUpdatedKey = "amazon_last_updated"
 
-    /// Notification threshold: notify when a price drops by at least this percentage.
-    private let notifyPercentage: Double = 10
-
     /// Single reusable formatter (creating one per loop iteration is expensive).
     private static let iso = ISO8601DateFormatter()
 
     init() {
         load()
+    }
+
+    // MARK: - Derived Stats
+
+    /// Total amount current prices sit below their highest tracked price.
+    var totalSavings: Double {
+        items.reduce(0) { acc, item in
+            guard let high = item.highestPrice, let cur = item.currentPrice, high > cur else { return acc }
+            return acc + (high - cur)
+        }
+    }
+
+    /// How many tracked items are currently trending down.
+    var droppingCount: Int {
+        items.filter { $0.trend == .down }.count
     }
 
     // MARK: - Persistence
@@ -77,15 +88,6 @@ class PriceStore {
                 }
             }
 
-            // Notification logic: alert on a meaningful price drop
-            if let lastSafe = history.last, lastSafe.price > 10 {
-                let oldPrice = lastSafe.price
-                let priceDiff = oldPrice - item.price
-                if priceDiff > 0, (priceDiff / oldPrice) * 100 >= notifyPercentage {
-                    sendNotification(title: item.title, oldPrice: oldPrice, newPrice: item.price)
-                }
-            }
-
             // Add a new entry unless we already recorded this exact price today
             let newEntry = PriceEntry(date: Self.iso.string(from: now), price: item.price)
             let lastDate = lastEntry.flatMap { Self.iso.date(from: $0.date) }
@@ -106,27 +108,6 @@ class PriceStore {
         items = nextItems
         lastUpdated = now
         save()
-    }
-
-    // MARK: - Notifications
-
-    private func sendNotification(title: String, oldPrice: Double, newPrice: Double) {
-        let content = UNMutableNotificationContent()
-        content.title = String(localized: "🔔 Price Drop!")
-        let shortTitle = title.count > 40 ? String(title.prefix(37)) + "..." : title
-        content.body = String(
-            format: String(localized: "%1$@ dropped from R$ %2$@ to R$ %3$@"),
-            shortTitle, oldPrice.priceValue, newPrice.priceValue
-        )
-        content.sound = .default
-
-        let request = UNNotificationRequest(
-            identifier: UUID().uuidString,
-            content: content,
-            trigger: nil
-        )
-
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 
     // MARK: - Demo Data (screenshots / `-demoMode` launch argument)

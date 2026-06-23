@@ -55,6 +55,7 @@ extension Double {
     var priceValue: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.locale = Locale(identifier: "pt_BR")
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
         return formatter.string(from: NSNumber(value: self)) ?? String(format: "%.2f", self)

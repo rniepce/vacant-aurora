@@ -18,7 +18,7 @@ struct ItemDetailView: View {
             // Stats Cards
             Section {
                 HStack(spacing: 12) {
-                    StatCard(label: "Current", value: formatPrice(item.currentPrice), color: Color(hex: "FF9900"))
+                    StatCard(label: "Current", value: formatPrice(item.currentPrice), color: .priceText)
                     StatCard(label: "Lowest", value: formatPrice(item.lowestPrice), color: Color(hex: "007600"))
                     StatCard(label: "Highest", value: formatPrice(item.highestPrice), color: Color(hex: "CC0C39"))
                 }
@@ -72,7 +72,7 @@ struct ItemDetailView: View {
                             Text(entry.price.priceValue)
                                 .font(.subheadline.weight(.semibold))
                         }
-                        .foregroundStyle(Color(hex: "FF9900"))
+                        .foregroundStyle(.priceText)
                     }
                 }
             }
@@ -85,7 +85,7 @@ struct ItemDetailView: View {
                             .font(.subheadline.weight(.semibold))
                             .frame(maxWidth: .infinity)
                     }
-                    .tint(Color(hex: "FF9900"))
+                    .tint(.priceText)
                 }
             }
         }

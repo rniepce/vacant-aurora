@@ -11,22 +11,35 @@
         }
       }
     },
-    "%1$@ dropped from R$ %2$@ to R$ %3$@" : {
+    "%@%%" : {
+
+    },
+    "%1$lld of %2$lld dropping" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ caiu de R$ %2$@ para R$ %3$@"
+            "value" : "%1$lld de %2$lld em queda"
           }
         }
       }
     },
-    "🔔 Price Drop!" : {
+    "%lld items" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🔔 Queda de Preço!"
+            "value" : "%lld itens"
+          }
+        }
+      }
+    },
+    "Account" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conta"
           }
         }
       }
@@ -101,26 +114,6 @@
         }
       }
     },
-    "Invalid response" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resposta inválida"
-          }
-        }
-      }
-    },
-    "Price" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preço"
-          }
-        }
-      }
-    },
     "Done" : {
       "localizations" : {
         "pt-BR" : {
@@ -157,6 +150,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dados insuficientes"
+          }
+        }
+      }
+    },
+    "Invalid response" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resposta inválida"
           }
         }
       }
@@ -221,6 +224,26 @@
         }
       }
     },
+    "Price" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço"
+          }
+        }
+      }
+    },
+    "Price fell %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço caiu %@"
+          }
+        }
+      }
+    },
     "Price History" : {
       "localizations" : {
         "pt-BR" : {
@@ -232,6 +255,7 @@
       }
     },
     "Price Monitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -240,6 +264,19 @@
           }
         }
       }
+    },
+    "Price rose %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço subiu %@"
+          }
+        }
+      }
+    },
+    "R$" : {
+
     },
     "Reading cart..." : {
       "localizations" : {
@@ -267,6 +304,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atualizar"
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sair"
           }
         }
       }
@@ -301,12 +348,32 @@
         }
       }
     },
+    "Tracked savings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Economia rastreada"
+          }
+        }
+      }
+    },
     "Updated %@" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atualizado %@"
+          }
+        }
+      }
+    },
+    "View demo" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver demonstração"
           }
         }
       }
