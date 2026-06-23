@@ -14,6 +14,26 @@
     "%@%%" : {
 
     },
+    "%1$lld of %2$lld dropping" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld de %2$lld em queda"
+          }
+        }
+      }
+    },
+    "%lld items" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld itens"
+          }
+        }
+      }
+    },
     "Account" : {
       "localizations" : {
         "pt-BR" : {
@@ -224,36 +244,6 @@
         }
       }
     },
-    "%lld items" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld itens"
-          }
-        }
-      }
-    },
-    "%1$lld of %2$lld dropping" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld de %2$lld em queda"
-          }
-        }
-      }
-    },
-    "Tracked savings" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Economia rastreada"
-          }
-        }
-      }
-    },
     "Price History" : {
       "localizations" : {
         "pt-BR" : {
@@ -265,6 +255,7 @@
       }
     },
     "Price Monitor" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -353,6 +344,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tempo esgotado ao ler o carrinho. Tente novamente."
+          }
+        }
+      }
+    },
+    "Tracked savings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Economia rastreada"
           }
         }
       }
