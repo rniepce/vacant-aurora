@@ -41,8 +41,8 @@ struct DashboardView: View {
                 }
             }
         }
-        .navigationTitle("Price Monitor")
-        .tint(Color(hex: "FF9900"))
+        .navigationTitle(Text(verbatim: "Radar de Preços"))
+        .tint(.brandOrange)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if isLoggedIn {
@@ -56,8 +56,8 @@ struct DashboardView: View {
                             Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
                         }
                     } label: {
-                        Image(systemName: "person.crop.circle.fill")
-                            .foregroundStyle(Color(hex: "4CAF50"))
+                        Image(systemName: "person.crop.circle")
+                            .foregroundStyle(.secondary)
                     }
                     .accessibilityLabel("Account")
                 } else {
@@ -72,17 +72,6 @@ struct DashboardView: View {
             }
 
             ToolbarItemGroup(placement: .bottomBar) {
-                Button {
-                    Task { await refreshCart() }
-                } label: {
-                    Label("Refresh", systemImage: "arrow.clockwise")
-                }
-                .modifier(GlassProminentStyle())
-                .tint(Color(hex: "FF9900"))
-                .disabled(store.isLoading)
-
-                Spacer()
-
                 Menu {
                     Picker("Sort", selection: $sortOption) {
                         ForEach(SortOption.allCases, id: \.self) { option in
@@ -92,7 +81,20 @@ struct DashboardView: View {
                 } label: {
                     Label(sortOption.titleKey, systemImage: "arrow.up.arrow.down")
                 }
+                .labelStyle(.titleAndIcon)
                 .modifier(GlassStyle())
+
+                Spacer()
+
+                Button {
+                    Task { await refreshCart() }
+                } label: {
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                }
+                .labelStyle(.titleAndIcon)
+                .modifier(GlassProminentStyle())
+                .tint(.brandOrange)
+                .disabled(store.isLoading)
             }
         }
     }
@@ -121,24 +123,23 @@ struct DashboardView: View {
 
     private var itemListView: some View {
         List {
+            if store.totalSavings > 0 {
+                Section {
+                    SavingsHeroCard(
+                        totalSavings: store.totalSavings,
+                        droppingCount: store.droppingCount,
+                        totalCount: store.items.count
+                    )
+                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
+                    .listRowBackground(Color.clear)
+                }
+            }
+
             if let error = store.errorMessage {
                 Section {
                     Label(error, systemImage: "exclamationmark.triangle")
                         .font(.caption)
                         .foregroundStyle(.red)
-                }
-            }
-
-            if let date = store.lastUpdated {
-                Section {
-                    Label {
-                        Text(String(format: String(localized: "Updated %@"),
-                                    date.formatted(.relative(presentation: .named))))
-                    } icon: {
-                        Image(systemName: "clock")
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
                 }
             }
 
@@ -150,6 +151,8 @@ struct DashboardView: View {
                         ItemRowView(item: item)
                     }
                 }
+            } header: {
+                Text(listHeaderText)
             }
         }
         .listStyle(.insetGrouped)
@@ -169,6 +172,15 @@ struct DashboardView: View {
                 (a.currentPrice ?? .infinity) < (b.currentPrice ?? .infinity)
             }
         }
+    }
+
+    /// Section header: "Updated <when> · N items" — replaces the search-bar-shaped pill.
+    private var listHeaderText: String {
+        let itemsText = String(format: String(localized: "%lld items"), store.items.count)
+        guard let date = store.lastUpdated else { return itemsText }
+        let updated = String(format: String(localized: "Updated %@"),
+                             date.formatted(.relative(presentation: .named)))
+        return "\(updated) · \(itemsText)"
     }
 
     // MARK: - Actions
@@ -265,15 +277,16 @@ struct ItemRowView: View {
                         .clipShape(Capsule())
                     }
                 }
+
+                // Lowest price ever recorded
+                if let low = item.lowestPrice {
+                    Text(verbatim: "\(String(localized: "Lowest")) · R$ \(low.priceValue)")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                }
             }
 
             Spacer(minLength: 0)
-
-            // Trend indicator
-            Circle()
-                .fill(trendColor)
-                .frame(width: 8, height: 8)
-                .shadow(color: trendColor.opacity(0.5), radius: 3)
         }
         .padding(.vertical, 4)
         .accessibilityElement(children: .ignore)
@@ -304,13 +317,49 @@ struct ItemRowView: View {
         }
         .frame(width: 56, height: 56)
     }
+}
 
-    private var trendColor: Color {
-        switch item.trend {
-        case .down: return Color(hex: "007600")
-        case .up: return Color(hex: "CC0C39")
-        case .stable: return Color(hex: "E0A800")
+// MARK: - Savings Hero
+
+struct SavingsHeroCard: View {
+    let totalSavings: Double
+    let droppingCount: Int
+    let totalCount: Int
+
+    private let positive = Color(hex: "007600")
+
+    var body: some View {
+        HStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text("Tracked savings")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                HStack(alignment: .firstTextBaseline, spacing: 3) {
+                    Text(verbatim: "−R$")
+                        .font(.title3.weight(.semibold))
+                    Text(totalSavings.priceValue)
+                        .font(.title2.weight(.bold))
+                }
+                .foregroundStyle(positive)
+
+                Text(String(format: String(localized: "%1$lld of %2$lld dropping"),
+                            droppingCount, totalCount))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer(minLength: 0)
+
+            Image(systemName: "chart.line.downtrend.xyaxis")
+                .font(.system(size: 34))
+                .foregroundStyle(positive.opacity(0.45))
+                .accessibilityHidden(true)
         }
+        .padding(16)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .accessibilityElement(children: .combine)
     }
 }
 

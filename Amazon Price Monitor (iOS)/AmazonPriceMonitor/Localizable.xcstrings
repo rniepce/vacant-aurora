@@ -11,6 +11,9 @@
         }
       }
     },
+    "%@%%" : {
+
+    },
     "Account" : {
       "localizations" : {
         "pt-BR" : {
@@ -91,26 +94,6 @@
         }
       }
     },
-    "Invalid response" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resposta inválida"
-          }
-        }
-      }
-    },
-    "Price" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preço"
-          }
-        }
-      }
-    },
     "Done" : {
       "localizations" : {
         "pt-BR" : {
@@ -147,6 +130,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dados insuficientes"
+          }
+        }
+      }
+    },
+    "Invalid response" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resposta inválida"
           }
         }
       }
@@ -211,6 +204,16 @@
         }
       }
     },
+    "Price" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço"
+          }
+        }
+      }
+    },
     "Price fell %@" : {
       "localizations" : {
         "pt-BR" : {
@@ -221,22 +224,32 @@
         }
       }
     },
-    "Price rose %@" : {
+    "%lld items" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preço subiu %@"
+            "value" : "%lld itens"
           }
         }
       }
     },
-    "Sign Out" : {
+    "%1$lld of %2$lld dropping" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sair"
+            "value" : "%1$lld de %2$lld em queda"
+          }
+        }
+      }
+    },
+    "Tracked savings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Economia rastreada"
           }
         }
       }
@@ -260,6 +273,19 @@
           }
         }
       }
+    },
+    "Price rose %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço subiu %@"
+          }
+        }
+      }
+    },
+    "R$" : {
+
     },
     "Reading cart..." : {
       "localizations" : {
@@ -287,6 +313,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atualizar"
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sair"
           }
         }
       }

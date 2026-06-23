@@ -24,6 +24,21 @@ class PriceStore {
         load()
     }
 
+    // MARK: - Derived Stats
+
+    /// Total amount current prices sit below their highest tracked price.
+    var totalSavings: Double {
+        items.reduce(0) { acc, item in
+            guard let high = item.highestPrice, let cur = item.currentPrice, high > cur else { return acc }
+            return acc + (high - cur)
+        }
+    }
+
+    /// How many tracked items are currently trending down.
+    var droppingCount: Int {
+        items.filter { $0.trend == .down }.count
+    }
+
     // MARK: - Persistence
 
     func save() {
