@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -7,16 +9,14 @@ plugins {
 
 android {
     namespace = "com.vacantaurora.pricemonitor"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.vacantaurora.pricemonitor"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-        // Mirrors the iOS demo launch argument: ./gradlew installDebug then enable in-app.
-        resourceConfigurations += listOf("en", "pt")
     }
 
     buildTypes {
@@ -34,17 +34,19 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         compose = true
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2024.12.01")
+    val composeBom = platform("androidx.compose:compose-bom:2026.06.00")
     implementation(composeBom)
 
     implementation("androidx.core:core-ktx:1.15.0")
@@ -61,11 +63,11 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.5")
 
     // Async image loading (equivalent to SwiftUI AsyncImage)
-    implementation("io.coil-kt.coil-compose:2.7.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     // Persistence + JSON (equivalent to UserDefaults + Codable)
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 
     // Background refresh (the iOS app has no background refresh — this is a bonus)
     implementation("androidx.work:work-runtime-ktx:2.10.0")

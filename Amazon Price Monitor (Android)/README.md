@@ -40,11 +40,12 @@ app/src/main/
 
 ## Build & run
 
-Requires Android Studio (Ladybug+) or a local JDK 17 + Android SDK 35.
+Requires a 2026 Android Studio (Otter+) or a local JDK 17 + Android SDK 36.
+Toolchain: AGP 9.2.0, Gradle 9.4.1, Kotlin 2.2.10, Compose BOM 2026.06.00.
 
 ```bash
 # Generate the Gradle wrapper (one-time; not committed):
-gradle wrapper --gradle-version 8.11.1
+gradle wrapper --gradle-version 9.4.1
 
 ./gradlew installDebug
 ```
