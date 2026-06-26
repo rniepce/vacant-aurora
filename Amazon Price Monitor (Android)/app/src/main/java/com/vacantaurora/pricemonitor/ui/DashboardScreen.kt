@@ -1,7 +1,9 @@
 package com.vacantaurora.pricemonitor.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,7 +66,7 @@ import com.vacantaurora.pricemonitor.ui.theme.PriceStable
 import com.vacantaurora.pricemonitor.ui.theme.PriceUp
 import kotlin.math.abs
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun DashboardScreen(
     state: DashboardState,
@@ -73,13 +75,23 @@ fun DashboardScreen(
     onSortChange: (SortOption) -> Unit,
     onOpenLogin: () -> Unit,
     onOpenItem: (String) -> Unit,
+    onEnableDemo: () -> Unit = {},
 ) {
     var sortMenuOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.app_title)) },
+                title = {
+                    // Long-press the title to load demo data (for store screenshots).
+                    Text(
+                        stringResource(R.string.app_title),
+                        modifier = Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClick = onEnableDemo,
+                        ),
+                    )
+                },
                 actions = {
                     IconButton(onClick = onOpenLogin) {
                         Icon(

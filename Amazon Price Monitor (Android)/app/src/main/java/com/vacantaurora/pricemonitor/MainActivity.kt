@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
                             onSortChange = viewModel::setSort,
                             onOpenLogin = { nav.navigate("login") },
                             onOpenItem = { nav.navigate("detail/$it") },
+                            onEnableDemo = viewModel::enableDemoData,
                         )
                     }
                     composable("login") {

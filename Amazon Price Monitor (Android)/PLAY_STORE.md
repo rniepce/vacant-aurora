@@ -78,8 +78,9 @@ Use essa URL no campo "Política de Privacidade" do Play Console.
 | Gráfico de destaque | 1024×500 PNG | Banner simples com o nome do app |
 | Capturas de tela do celular | 2 a 8, mín. 320px | Rode o app e tire prints (telas do painel e do detalhe) |
 
-> Dica: para boas capturas, use o modo demo. Chame `viewModel.enableDemoData()` temporariamente
-> no `MainActivity` para preencher com itens de exemplo e tirar os prints.
+> Dica: para boas capturas, **segure (long-press) o título "Radar de Preços"** na tela inicial —
+> isso carrega itens de exemplo (iPhone, PS5, Kindle, Echo Dot) com histórico de preços,
+> perfeito para os prints da loja. É um atalho discreto, invisível para o usuário comum.
 
 ---
 
@@ -118,6 +119,45 @@ O app não coleta nem compartilha nenhum dado pessoal. Seu login é feito na pr�
 página da Amazon e o histórico fica apenas no seu dispositivo.
 
 Radar de Preços não é afiliado nem endossado pela Amazon.
+```
+
+---
+
+### Textos da ficha em inglês (para adicionar como idioma "English (United States)")
+
+**Title (max 30 chars):**
+```
+Price Radar
+```
+
+**Short description (max 80 chars):**
+```
+Track price drops on items in your Amazon cart and get notified instantly.
+```
+
+**Full description (max 4000 chars):**
+```
+Price Radar keeps an eye on the prices of items in your Amazon.com.br cart and
+alerts you whenever one drops.
+
+HOW IT WORKS
+• Sign in securely to your Amazon account (directly on Amazon's official page).
+• Tap Refresh to read the items in your cart.
+• The app records each product's price history over time.
+• Get a notification when an item has a meaningful price drop.
+
+FEATURES
+• Price history with the lowest and highest value for each item.
+• Sort by biggest drop or lowest price.
+• Automatic background checks.
+• Everything runs locally on your device — no data is sent to any server.
+• Available in English and Portuguese.
+
+PRIVACY
+The app does not collect or share any personal data. Your login happens on
+Amazon's own page and your history stays only on your device.
+
+Price Radar is not affiliated with or endorsed by Amazon.
 ```
 
 ---
