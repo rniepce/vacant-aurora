@@ -50,7 +50,7 @@ fun LoginScreen(onDone: () -> Unit) {
                     settings.userAgentString = CartParser.USER_AGENT
                     CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
                     webViewClient = WebViewClient()
-                    loadUrl("https://www.amazon.com.br/ap/signin")
+                    loadUrl(CartParser.SIGNIN_URL)
                 }
             },
         )

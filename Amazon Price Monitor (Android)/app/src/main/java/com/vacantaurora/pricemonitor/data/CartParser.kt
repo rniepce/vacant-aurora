@@ -37,10 +37,21 @@ object CartParser {
 
     const val CART_URL = "https://www.amazon.com.br/gp/cart/view.html"
 
-    // Same desktop user agent the iOS app uses so Amazon serves the expected cart HTML.
+    // Full OpenID sign-in URL that returns to the cart, mirroring the iOS LoginView.
+    // The bare /ap/signin path is rejected by Amazon ("page not found").
+    const val SIGNIN_URL =
+        "https://www.amazon.com.br/ap/signin?openid.pape.max_auth_age=0" +
+            "&openid.return_to=https%3A%2F%2Fwww.amazon.com.br%2Fgp%2Fcart%2Fview.html" +
+            "&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select" +
+            "&openid.assoc_handle=brflex&openid.mode=checkid_setup" +
+            "&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select" +
+            "&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0"
+
+    // Shared mobile Safari user agent so Amazon serves the same markup to login and
+    // cart scraping — identical to the iOS app's AmazonWebView.userAgent.
     const val USER_AGENT =
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 " +
-            "(KHTML, like Gecko) Version/17.0 Safari/605.1.15"
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 " +
+            "(KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
 
     private const val TIMEOUT_MS = 25_000L
     private const val RENDER_DELAY_MS = 1_500L
