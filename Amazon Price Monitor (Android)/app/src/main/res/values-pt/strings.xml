@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Monitor de Preços</string>
+    <string name="app_title">Monitor de Preços</string>
+
+    <string name="refresh">Atualizar</string>
+    <string name="account">Conta</string>
+    <string name="reading_cart">Lendo o carrinho…</string>
+    <string name="back">Voltar</string>
+    <string name="done">Concluir</string>
+
+    <string name="sort_biggest_drop">Maior Queda</string>
+    <string name="sort_lowest_price">Menor Preço</string>
+
+    <string name="empty_title">Nenhum item monitorado</string>
+    <string name="empty_logged_in">Toque em \'Atualizar\' para ler seu carrinho da Amazon</string>
+    <string name="empty_logged_out">Faça login na Amazon primeiro e depois atualize o carrinho</string>
+
+    <string name="detail_title">Histórico de Preços</string>
+    <string name="current">Atual</string>
+    <string name="lowest">Menor</string>
+    <string name="highest">Maior</string>
+    <string name="history">Histórico</string>
+
+    <string name="login_title">Entrar na Amazon</string>
+
+    <string name="err_login_required">Você precisa fazer login na Amazon primeiro.</string>
+    <string name="err_no_items">Nenhum item encontrado no carrinho.</string>
+    <string name="err_timeout">Tempo esgotado ao ler o carrinho. Tente novamente.</string>
+    <string name="err_parse">Erro ao ler o carrinho: %1$s</string>
+
+    <string name="price_drop_title">🔔 Queda de Preço!</string>
+    <string name="price_drop_body">%1$s caiu de R$ %2$s para R$ %3$s</string>
+
+    <string name="notif_channel_name">Quedas de Preço</string>
+    <string name="notif_channel_desc">Avisos quando um item monitorado fica mais barato</string>
+</resources>

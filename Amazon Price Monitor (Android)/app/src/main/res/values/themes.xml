@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Compose handles in-app theming; this is just the launch/window theme. -->
+    <style name="Theme.PriceMonitor" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">#FF9900</item>
+    </style>
+</resources>
