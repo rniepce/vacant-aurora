@@ -24,7 +24,7 @@ Onde paramos no caminho até o Google Play. Atualizado em 26/06/2026.
 | 9 | Recursos gráficos base (`store-assets/`) | ✅ feito |
 | 10 | **Verificação de dispositivo Android real** | ⛔ **BLOQUEADO** |
 | 11 | Ativar GitHub Pages (1 clique em Settings → Pages) | ⏳ pendente |
-| 12 | Exportar gráficos SVG → PNG (ícone 512, banner 1024×500) | ⏳ pendente |
+| 12 | Exportar gráficos SVG → PNG (ícone 512, banner 1024×500) | ✅ feito |
 | 13 | Tirar capturas de tela (long-press no título p/ modo demo) | ⏳ pendente |
 | 14 | Criar o app no Console + preencher ficha + subir `.aab` | ⏳ depende do #10 |
 | 15 | Teste Interno → validar → enviar para revisão | ⏳ depende do #10 |
