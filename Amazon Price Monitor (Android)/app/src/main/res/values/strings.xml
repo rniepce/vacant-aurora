@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Price Radar</string>
+    <string name="app_title">Price Radar</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="account">Account</string>
+    <string name="reading_cart">Reading cart…</string>
+    <string name="back">Back</string>
+    <string name="done">Done</string>
+
+    <string name="sort_biggest_drop">Biggest Drop</string>
+    <string name="sort_lowest_price">Lowest Price</string>
+
+    <string name="empty_title">No items tracked</string>
+    <string name="empty_logged_in">Tap \'Refresh\' to read your Amazon cart</string>
+    <string name="empty_logged_out">Log in to Amazon first, then refresh your cart</string>
+
+    <string name="detail_title">Price History</string>
+    <string name="current">Current</string>
+    <string name="lowest">Lowest</string>
+    <string name="highest">Highest</string>
+    <string name="history">History</string>
+
+    <string name="login_title">Log in to Amazon</string>
+
+    <string name="err_login_required">You need to log in to Amazon first.</string>
+    <string name="err_no_items">No items found in the cart.</string>
+    <string name="err_timeout">Timed out reading the cart. Please try again.</string>
+    <string name="err_parse">Error reading cart: %1$s</string>
+
+    <string name="price_drop_title">🔔 Price Drop!</string>
+    <string name="price_drop_body">%1$s dropped from R$ %2$s to R$ %3$s</string>
+
+    <string name="notif_channel_name">Price Drops</string>
+    <string name="notif_channel_desc">Alerts when a tracked item drops in price</string>
+</resources>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <!-- Play Store listing icon, 512x512. Matches the in-app adaptive icon. -->
+  <rect width="108" height="108" fill="#232F3E"/>
+  <path d="M46,24 h16 v32 h10 l-18,24 l-18,-24 h10 z" fill="#FF9900"/>
+</svg>
